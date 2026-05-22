@@ -1,0 +1,94 @@
+﻿@page "/"
+
+@using ControlSalidas.Web.Models
+@inject HttpClient Http
+
+<PageTitle>Home</PageTitle>
+
+<h3>Funcionarios</h3>
+
+@if (funcionarios == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Noches</th>
+                <th>Días fuera</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var f in funcionarios)
+            {
+                <tr>
+                    <td>@f.nombre</td>
+                    <td>@f.noches</td>
+                    <td>@f.diasFuera</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h3>Salidas</h3>
+
+@if (salidas == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fecha de salida</th>
+                <th>Fecha de llegada</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var s in salidas)
+            {
+                <tr>
+                    <td>@s.fechaSalida</td>
+                    <td>@s.fechaLlegada</td>
+                    <td>
+                        @if (s.estado == "En curso")
+                        {
+                            <span class="badge bg-success">@s.estado</span>
+                        }
+                        else if (s.estado == "Finalizado")
+                        {
+                            <span class="badge bg-secondary">@s.estado</span>
+                        }
+                        else if (s.estado == "Para salir")
+                        {
+                            <span class="badge bg-primary">@s.estado</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    List<Funcionario>? funcionarios;
+    List<Salida>? salidas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        funcionarios = await Http.GetFromJsonAsync<List<Funcionario>>(
+            "api/Funcionarios/Obtener_funcionarios");
+
+        salidas = await Http.GetFromJsonAsync<List<Salida>>(
+            "api/Funcionarios/Obtener_salidas");
+    }
+}

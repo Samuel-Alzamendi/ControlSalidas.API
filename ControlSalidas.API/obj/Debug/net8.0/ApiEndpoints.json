@@ -1,0 +1,80 @@
+[
+  {
+    "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
+    "Method": "AgregarFuncionario",
+    "RelativePath": "api/Funcionarios/Agregar_funcionarios",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "funcionario",
+        "Type": "ControlSalidas.API.Models.Funcionario",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
+    "Method": "AgregarHospital",
+    "RelativePath": "api/Funcionarios/Agregar_hospital",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ControlSalidas.API.Models.RegistrarHospitalRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
+    "Method": "ObtenerFuncionarios",
+    "RelativePath": "api/Funcionarios/Obtener_funcionarios",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
+    "Method": "ObtenerHospitales",
+    "RelativePath": "api/Funcionarios/Obtener_hospitales",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
+    "Method": "ObtenerSalidas",
+    "RelativePath": "api/Funcionarios/Obtener_salidas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
+    "Method": "RegistrarSalida",
+    "RelativePath": "api/Funcionarios/Registrar_salida",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ControlSalidas.API.Models.RegistrarSalidaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

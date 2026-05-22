@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Nuevo perfil",
+    "Projects": [
+      {
+        "Path": "ControlSalidas.API\\ControlSalidas.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "ControlSalidas.Web\\ControlSalidas.Web.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
