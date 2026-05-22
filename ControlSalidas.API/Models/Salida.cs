@@ -2,7 +2,6 @@
 {
     public class Salida
     {
-
         public int id { get; set; }
         public int funcionarioId { get; set; }
         public DateOnly fechaSalida { get; set; }
