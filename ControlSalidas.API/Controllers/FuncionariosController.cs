@@ -15,12 +15,13 @@ public class FuncionariosController : ControllerBase
         _context = context;
     }
 
+    #region Gets
     [HttpGet("Obtener_funcionarios")]
     public IActionResult ObtenerFuncionarios()
     {
         var funcionarios = _context.Funcionarios
-        .OrderBy(f => f.noches)
-        .ThenBy(f => f.diasFuera)
+        .OrderBy(f => f.Noches)
+        .ThenBy(f => f.DiasFuera)
         .ToList();
 
         return Ok(funcionarios);
@@ -72,6 +73,17 @@ public class FuncionariosController : ControllerBase
         return Ok(salidas);
     }
 
+    [HttpGet("Obtener_salidas_Funcionarios")]
+    public IActionResult ObtenerSalidaFuncionario()
+    {
+        var salidaFuncionarios = _context.SalidaFuncionarios
+            .OrderBy(f => f.salidaId)
+            .ToList();
+
+        return Ok(salidaFuncionarios);
+    }
+
+
     [HttpGet("Obtener_hospitales")]
     public IActionResult ObtenerHospitales()
     {
@@ -81,71 +93,141 @@ public class FuncionariosController : ControllerBase
 
         return Ok(hospitales);
     }
+    #endregion
 
+    #region Sets
     [HttpPost("Agregar_funcionarios")]
-    public IActionResult AgregarFuncionario(Funcionario funcionario)
+    public IActionResult AgregarFuncionario(RegistarFuncionarioRequest request)
     {
-        _context.Funcionarios.Add(funcionario);
-        _context.SaveChanges();
+        if (request.Nombre.Trim() == "" || request.Cargo.Trim() == "")
+        {
+            return BadRequest("Error, usuario invalido");
+        }
+        else if (Math.Abs(request.Ci).ToString().Length < 8 || Math.Abs(request.Ci).ToString().Length > 8)
+        {
+            return BadRequest("Error, CI invalida");
+        }
+        else
+        {
+            var funcionario = new Funcionario
+            {
+                Ci = request.Ci,
+                Nombre = request.Nombre,
+                Cargo = request.Cargo
+            };
 
-        return Ok(funcionario);
+            _context.Funcionarios.Add(funcionario);
+            _context.SaveChanges();
+
+            return Ok(funcionario);
+        }
+            
     }
 
     [HttpPost("Registrar_salida")]
     public IActionResult RegistrarSalida(RegistrarSalidaRequest request)
     {
-        var funcionario = _context.Funcionarios
-            .FirstOrDefault(f => f.id == request.funcionarioId);
-
-        if (funcionario == null)
+        if(request.funcionariosIds == null)  
         {
-            return NotFound("Funcionario no encontrado");
+            return BadRequest("Ningun funcionario seleccionado");
+        } else if (request.fechaSalida.DayNumber > request.fechaLlegada.DayNumber)
+        {
+            return BadRequest("La fecha de salida no puede ser anterior a la fecha de llegada");
         }
-
-        int dias = (request.fechaLlegada.Day - request.fechaSalida.Day) + 1;
-        int noches = 0;
-        if (dias >= 2)
+        else if(request.hospitalId == null)
         {
-            noches = dias - 1;
+            return BadRequest("Ningun hopital valido seleccionado");
         }
-        else if (dias == 1)
+        else
         {
-            noches = 0;
-        }
 
-        if (dias <= 0)
-        {
-            return BadRequest("La fecha de llegada debe ser posterior o igual a la fecha de salida");
-        }
+            var funcionarios = _context.Funcionarios
+                    .Where(f => request.funcionariosIds.Contains(f.Id))
+                    .ToList();
 
-        int salidasCalculadas = 1;
+            //var funcionario = _context.Funcionarios
+            //    .FirstOrDefault(f => f.id == request.funcionarioId);
 
-        var salida = new Salida
-        {
-            funcionarioId = funcionario.id,
-            fechaSalida = request.fechaSalida,
-            fechaLlegada = request.fechaLlegada,
-            dias = dias,
-            noches = noches,
-            salidasCalculadas = salidasCalculadas
-        };
-        _context.Salidas.Add(salida);
+            if (funcionarios == null)
+            {
+                return NotFound("Funcionarios no encontrado");
+            }
 
-        funcionario.cantidadSalidas += salidasCalculadas;
-        funcionario.diasFuera += dias;
-        funcionario.noches += noches;
+            int dias = (request.fechaLlegada.Day - request.fechaSalida.Day) + 1;
+            int noches = 0;
+            if (dias >= 2)
+            {
+                noches = dias - 1;
+            }
+            else if (dias == 1)
+            {
+                noches = 0;
+            }
 
-        _context.SaveChanges();
+            if (dias <= 0)
+            {
+                return BadRequest("La fecha de llegada debe ser posterior o igual a la fecha de salida");
+            }
 
-        return Ok(new
-        {
-            mensaje = "Salida registrada correctamente",
-            dias,
-            noches,
-            salidasCalculadas,
-            salida
-        });
-    }
+            int salidasCalculadas = 1;
+
+            //var hospital = new Hospital
+            //{
+            //    id = request.hospital.id,
+            //    ciudad = request.hospital.ciudad,
+            //    departamento = request.hospital.departamento,
+            //    nombre = request.hospital.nombre
+            //};
+
+            var hospital = _context.Hospitales
+                .Where(f => request.hospitalId.Contains(f.id))
+                .ToList();
+
+            var salida = new Salida
+            {
+                fechaSalida = request.fechaSalida,
+                fechaLlegada = request.fechaLlegada,
+                dias = dias,
+                noches = noches,
+                salidasCalculadas = salidasCalculadas,
+                hospital = hospital
+            };
+            _context.Salidas.Add(salida);
+            _context.SaveChanges();
+
+            foreach (var funcionario in funcionarios)
+            {
+                funcionario.CantidadSalidas += salidasCalculadas;
+                funcionario.DiasFuera += dias;
+                funcionario.Noches += noches;
+
+                // averiguar porque los obj funcionario y salida no son accesibles en salida funcionario
+                var salidaFuncionario = new SalidaFuncionario
+                {
+                    salidaId = salida.id,
+                    salida = salida,
+                    funcionario = funcionario
+
+                };
+
+                _context.SalidaFuncionarios.Add(salidaFuncionario);
+                _context.SaveChanges();
+            }
+
+
+            return Ok(new
+            {
+                mensaje = "Salida registrada correctamente",
+                dias,
+                noches,
+                salidasCalculadas,
+                fechaSalida = salida.fechaSalida,
+                fechaLlegada = salida.fechaLlegada,
+                hospital = salida.hospital
+            });
+
+        }// else
+    }//metodo
 
     [HttpPost("Agregar_hospital")]
     public IActionResult AgregarHospital(RegistrarHospitalRequest request)
@@ -164,8 +246,8 @@ public class FuncionariosController : ControllerBase
 
         return Ok(hospital);
     }
+    #endregion
 
 
-    
 
 }// class

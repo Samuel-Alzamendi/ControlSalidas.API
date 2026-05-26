@@ -1,0 +1,61 @@
+﻿@page "/HistorialSalidasFuncionario"
+
+@using ControlSalidas.Web.Models
+@inject HttpClient Http
+<h3>HistorialSalidas</h3>
+
+<PageTitle>Historial de salidas</PageTitle>
+
+@if (salidaFuncionarios == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Salida ID</th>
+                <th>Estado de salida</th>
+                <th>Funcionario ID</th>
+                <th>Nombre funcionario</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var f in salidaFuncionarios)
+            {
+                /*
+                
+                no se puede llamar a obj referenciales, da error,
+                no puedo llamar a estado por el obj salida
+                
+                */
+                    <tr>
+                        <td>@f.id</td>
+                        <td>@f.salidaId</td>
+                        <td>@f.funcionario</td>
+                    </tr>
+                
+
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    List<SalidaFuncionario>? salidaFuncionarios;
+    List<Salida>? salidas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        salidaFuncionarios = await Http.GetFromJsonAsync<List<SalidaFuncionario>>(
+            "api/Funcionarios/Obtener_salidas");
+
+        
+        salidas = await Http.GetFromJsonAsync<List<Salida>>(
+            "api/Funcionarios/Obtener_salidas");
+    }
+}

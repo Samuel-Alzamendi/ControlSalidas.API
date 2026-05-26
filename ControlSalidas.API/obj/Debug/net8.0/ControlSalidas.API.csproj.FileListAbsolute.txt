@@ -135,3 +135,4 @@ C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ControlSalidas.API.pdb
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ControlSalidas.API.genruntimeconfig.cache
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ref\ControlSalidas.API.dll
+C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ControlSalidas.API.sourcelink.json

@@ -96,6 +96,10 @@ main[b-3f1e4meuxv] {
         top: 0.5rem;
     }
 /* _content/ControlSalidas.Web/Components/Layout/NavMenu.razor.rz.scp.css */
+div.top-row ps-3 navbar navbar-dark[b-i9891m8qt9]{
+    height: 4rem;      
+}
+
 .navbar-toggler[b-i9891m8qt9] {
     appearance: none;
     cursor: pointer;

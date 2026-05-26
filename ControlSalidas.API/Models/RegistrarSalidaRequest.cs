@@ -3,10 +3,10 @@
     public class RegistrarSalidaRequest
     {
 
-        public int funcionarioId { get; set; }
+        public List<int> funcionariosIds { get; set; }
         public DateOnly fechaSalida { get; set; }
         public DateOnly fechaLlegada { get; set; }
-        public Hospital hospital { get; set; }
+        public List<int> hospitalId { get; set; }
 
 
     }// class

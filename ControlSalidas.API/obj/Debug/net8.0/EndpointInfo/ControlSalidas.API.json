@@ -29,6 +29,18 @@
         }
       }
     },
+    "/api/Funcionarios/Obtener_salidas_Funcionarios": {
+      "get": {
+        "tags": [
+          "Funcionarios"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Funcionarios/Obtener_hospitales": {
       "get": {
         "tags": [
@@ -50,17 +62,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Funcionario"
+                "$ref": "#/components/schemas/RegistarFuncionarioRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Funcionario"
+                "$ref": "#/components/schemas/RegistarFuncionarioRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Funcionario"
+                "$ref": "#/components/schemas/RegistarFuncionarioRequest"
               }
             }
           }
@@ -137,10 +149,10 @@
   },
   "components": {
     "schemas": {
-      "Funcionario": {
+      "RegistarFuncionarioRequest": {
         "type": "object",
         "properties": {
-          "id": {
+          "ci": {
             "type": "integer",
             "format": "int32"
           },
@@ -149,40 +161,6 @@
             "nullable": true
           },
           "cargo": {
-            "type": "string",
-            "nullable": true
-          },
-          "noches": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "cantidadSalidas": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "diasFuera": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Hospital": {
-        "type": "object",
-        "properties": {
-          "nombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "departamento": {
-            "type": "string",
-            "nullable": true
-          },
-          "ciudad": {
             "type": "string",
             "nullable": true
           }
@@ -214,9 +192,13 @@
       "RegistrarSalidaRequest": {
         "type": "object",
         "properties": {
-          "funcionarioId": {
-            "type": "integer",
-            "format": "int32"
+          "funcionariosIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
           },
           "fechaSalida": {
             "type": "string",
@@ -226,8 +208,13 @@
             "type": "string",
             "format": "date"
           },
-          "hospital": {
-            "$ref": "#/components/schemas/Hospital"
+          "hospitalId": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

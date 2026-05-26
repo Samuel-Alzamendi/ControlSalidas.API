@@ -3,6 +3,7 @@ using System;
 using ControlSalidas.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,40 +11,39 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlSalidas.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260525124814_hospitalesYfuncionariosAct")]
+    partial class hospitalesYfuncionariosAct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
 
             modelBuilder.Entity("ControlSalidas.API.Models.Funcionario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CantidadSalidas")
+                    b.Property<int>("cantidadSalidas")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Cargo")
+                    b.Property<string>("cargo")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Ci")
+                    b.Property<int>("diasFuera")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DiasFuera")
+                    b.Property<int>("noches")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Noches")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Nombre")
+                    b.Property<string>("nombre")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Funcionarios");
                 });
@@ -108,7 +108,7 @@ namespace ControlSalidas.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("funcionarioId")
+                    b.Property<int>("funcionarioid")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("salidaId")
@@ -116,7 +116,7 @@ namespace ControlSalidas.API.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("funcionarioId");
+                    b.HasIndex("funcionarioid");
 
                     b.HasIndex("salidaId");
 
@@ -134,7 +134,7 @@ namespace ControlSalidas.API.Migrations
                 {
                     b.HasOne("ControlSalidas.API.Models.Funcionario", "funcionario")
                         .WithMany()
-                        .HasForeignKey("funcionarioId")
+                        .HasForeignKey("funcionarioid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

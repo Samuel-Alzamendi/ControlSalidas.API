@@ -1,3 +1,7 @@
+div.top-row ps-3 navbar navbar-dark{
+    height: 4rem;      
+}
+
 .navbar-toggler {
     appearance: none;
     cursor: pointer;

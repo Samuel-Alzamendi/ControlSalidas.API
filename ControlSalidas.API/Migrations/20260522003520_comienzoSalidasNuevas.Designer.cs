@@ -3,6 +3,7 @@ using System;
 using ControlSalidas.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,40 +11,39 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlSalidas.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260522003520_comienzoSalidasNuevas")]
+    partial class comienzoSalidasNuevas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
 
             modelBuilder.Entity("ControlSalidas.API.Models.Funcionario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CantidadSalidas")
+                    b.Property<int>("cantidadSalidas")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Cargo")
+                    b.Property<string>("cargo")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Ci")
+                    b.Property<int>("diasFuera")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DiasFuera")
+                    b.Property<int>("noches")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Noches")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Nombre")
+                    b.Property<string>("nombre")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Funcionarios");
                 });
@@ -52,9 +52,6 @@ namespace ControlSalidas.API.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("Salidaid")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ciudad")
@@ -70,8 +67,6 @@ namespace ControlSalidas.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("id");
-
-                    b.HasIndex("Salidaid");
 
                     b.ToTable("Hospitales");
                 });
@@ -91,6 +86,12 @@ namespace ControlSalidas.API.Migrations
                     b.Property<DateOnly>("fechaSalida")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("funcionarioId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("hospitalId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("noches")
                         .HasColumnType("INTEGER");
 
@@ -98,6 +99,8 @@ namespace ControlSalidas.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("id");
+
+                    b.HasIndex("hospitalId");
 
                     b.ToTable("Salidas");
                 });
@@ -120,14 +123,18 @@ namespace ControlSalidas.API.Migrations
 
                     b.HasIndex("salidaId");
 
-                    b.ToTable("SalidaFuncionarios");
+                    b.ToTable("SalidaFuncionario");
                 });
 
-            modelBuilder.Entity("ControlSalidas.API.Models.Hospital", b =>
+            modelBuilder.Entity("ControlSalidas.API.Models.Salida", b =>
                 {
-                    b.HasOne("ControlSalidas.API.Models.Salida", null)
-                        .WithMany("hospital")
-                        .HasForeignKey("Salidaid");
+                    b.HasOne("ControlSalidas.API.Models.Hospital", "hospital")
+                        .WithMany()
+                        .HasForeignKey("hospitalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("hospital");
                 });
 
             modelBuilder.Entity("ControlSalidas.API.Models.SalidaFuncionario", b =>
@@ -152,8 +159,6 @@ namespace ControlSalidas.API.Migrations
             modelBuilder.Entity("ControlSalidas.API.Models.Salida", b =>
                 {
                     b.Navigation("Funcionarios");
-
-                    b.Navigation("hospital");
                 });
 #pragma warning restore 612, 618
         }

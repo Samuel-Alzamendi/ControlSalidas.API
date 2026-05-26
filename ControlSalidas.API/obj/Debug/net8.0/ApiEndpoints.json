@@ -8,8 +8,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "funcionario",
-        "Type": "ControlSalidas.API.Models.Funcionario",
+        "Name": "request",
+        "Type": "ControlSalidas.API.Models.RegistarFuncionarioRequest",
         "IsRequired": true
       }
     ],
@@ -55,6 +55,16 @@
     "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
     "Method": "ObtenerSalidas",
     "RelativePath": "api/Funcionarios/Obtener_salidas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
+    "Method": "ObtenerSalidaFuncionario",
+    "RelativePath": "api/Funcionarios/Obtener_salidas_Funcionarios",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

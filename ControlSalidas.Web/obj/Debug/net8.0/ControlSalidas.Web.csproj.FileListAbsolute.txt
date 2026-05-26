@@ -30,3 +30,4 @@ C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.pdb
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.genruntimeconfig.cache
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ref\ControlSalidas.Web.dll
+C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.sourcelink.json
