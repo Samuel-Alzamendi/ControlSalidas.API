@@ -1,0 +1,94 @@
+﻿@page "/AgregarFuncionario"
+@rendermode InteractiveServer
+
+@using ControlSalidas.Shared.Request;
+@using ControlSalidas.Web.Models
+@inject HttpClient Http
+
+<h3>Agregar Funcionario</h3>
+
+<PageTitle>Agregar funcionario</PageTitle>
+
+@if (funcionarios == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <InputText class="form-control"
+                   @bind-Value="nuevoFuncionario.Nombre" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Cargo</label>
+        <InputText class="form-control"
+                   @bind-Value="nuevoFuncionario.Cargo" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Cédula</label>
+        <InputText class="form-control"
+                   @bind-Value="nuevoFuncionario.Ci" />
+    </div>
+
+    <button class="btn btn-primary"
+            @onclick="AgregarFuncionarioWeb">
+        Agregar
+    </button>
+
+    <hr />
+
+    <h4>Funcionarios registrados</h4>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Cédula</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var f in funcionarios)
+            {
+                <tr>
+                    <td>@f.id</td>
+                    <td>@f.nombre</td>
+                    <td>@f.ci</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private List<Funcionario>? funcionarios;
+
+    //private Funcionario nuevoFuncionario = new Funcionario();
+    private RegistarFuncionarioRequest nuevoFuncionario = new RegistarFuncionarioRequest();
+
+    private async Task AgregarFuncionarioWeb()
+    {
+        var response = await Http.PostAsJsonAsync(
+            "api/Funcionarios/Agregar_funcionarios",
+            nuevoFuncionario);
+        Console.WriteLine($"Status: {response.StatusCode}");
+
+        var contenido = await response.Content.ReadAsStringAsync();
+        Console.WriteLine(contenido);
+        if (response.IsSuccessStatusCode)
+        {
+            funcionarios = await Http.GetFromJsonAsync<List<Funcionario>>(
+                "api/Funcionarios/Obtener_Funcionarios");
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        funcionarios = await Http.GetFromJsonAsync<List<Funcionario>>(
+            "api/Funcionarios/Obtener_Funcionarios");
+    }
+}

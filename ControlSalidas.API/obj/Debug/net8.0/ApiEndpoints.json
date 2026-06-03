@@ -9,7 +9,7 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "ControlSalidas.API.Models.RegistarFuncionarioRequest",
+        "Type": "ControlSalidas.Shared.Request.RegistarFuncionarioRequest",
         "IsRequired": true
       }
     ],

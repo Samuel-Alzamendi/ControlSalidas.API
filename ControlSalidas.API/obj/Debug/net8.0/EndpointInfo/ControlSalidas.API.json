@@ -153,8 +153,8 @@
         "type": "object",
         "properties": {
           "ci": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "nullable": true
           },
           "nombre": {
             "type": "string",
@@ -208,7 +208,7 @@
             "type": "string",
             "format": "date"
           },
-          "hospitalId": {
+          "hospitalesId": {
             "type": "array",
             "items": {
               "type": "integer",

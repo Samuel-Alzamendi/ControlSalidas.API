@@ -24,8 +24,8 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/samue/source/repos/ControlSalidas.API/ControlSalidas.Web/Components/Pages/Component.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb21wb25lbnQucmF6b3I=
+[C:/Users/samue/source/repos/ControlSalidas.API/ControlSalidas.Web/Components/Pages/AgregarFuncionario.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZ3JlZ2FyRnVuY2lvbmFyaW8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/samue/source/repos/ControlSalidas.API/ControlSalidas.Web/Components/Pages/Counter.razor]

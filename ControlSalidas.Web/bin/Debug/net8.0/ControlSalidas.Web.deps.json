@@ -7,14 +7,30 @@
   "targets": {
     ".NETCoreApp,Version=v8.0": {
       "ControlSalidas.Web/1.0.0": {
+        "dependencies": {
+          "ControlSalidas.Shared": "1.0.0"
+        },
         "runtime": {
           "ControlSalidas.Web.dll": {}
+        }
+      },
+      "ControlSalidas.Shared/1.0.0": {
+        "runtime": {
+          "ControlSalidas.Shared.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
   },
   "libraries": {
     "ControlSalidas.Web/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ControlSalidas.Shared/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

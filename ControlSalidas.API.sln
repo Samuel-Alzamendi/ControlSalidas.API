@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlSalidas.API", "Contr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlSalidas.Web", "ControlSalidas.Web\ControlSalidas.Web.csproj", "{FA78A452-2D65-4655-979E-572D23B155F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlSalidas.Shared", "ControlSalidas.Shared\ControlSalidas.Shared.csproj", "{1AC86CAE-9C26-45CD-ACDA-6C72AD894FC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FA78A452-2D65-4655-979E-572D23B155F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA78A452-2D65-4655-979E-572D23B155F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA78A452-2D65-4655-979E-572D23B155F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AC86CAE-9C26-45CD-ACDA-6C72AD894FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AC86CAE-9C26-45CD-ACDA-6C72AD894FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AC86CAE-9C26-45CD-ACDA-6C72AD894FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AC86CAE-9C26-45CD-ACDA-6C72AD894FC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

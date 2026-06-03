@@ -32,7 +32,9 @@ else
 
                     <td>
                         @string.Join(", ",
-                        s.Funcionarios.Select(f => f.nombre))
+                        funcionarios
+                        .Where(f => s.IdFuncionarios.Contains(f.id))
+                        .Select(f => f.nombre))
                     </td>
                     <td>
                         @if (s.Estado == "En curso")
@@ -81,13 +83,16 @@ else
 @code {
     List<SalidaFuncionario>? salidaFuncionarios;
     List<Salida>? salidas;
+    List<Funcionario> funcionarios;
 
     protected override async Task OnInitializedAsync()
     {
         salidaFuncionarios = await Http.GetFromJsonAsync<List<SalidaFuncionario>>(
-            "api/Funcionarios/Obtener_salidas_Funcionarios");
+            "api/Funcionarios/Obtener_Salidas_Funcionarios");
         salidas = await Http.GetFromJsonAsync<List<Salida>>(
-        "api/Funcionarios/Obtener_salidas");
+            "api/Funcionarios/Obtener_Salidas");
+        funcionarios = await Http.GetFromJsonAsync<List<Funcionario>>(
+            "api/Funcionarios/Obtener_Funcionarios");
     }
 }
 

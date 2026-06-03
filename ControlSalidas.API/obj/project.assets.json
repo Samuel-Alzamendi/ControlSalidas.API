@@ -1128,6 +1128,16 @@
         "build": {
           "buildTransitive/netcoreapp3.1/_._": {}
         }
+      },
+      "ControlSalidas.Shared/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/ControlSalidas.Shared.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ControlSalidas.Shared.dll": {}
+        }
       }
     }
   },
@@ -3034,10 +3044,16 @@
         "system.threading.channels.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "ControlSalidas.Shared/1.0.0": {
+      "type": "project",
+      "path": "../ControlSalidas.Shared/ControlSalidas.Shared.csproj",
+      "msbuildProject": "../ControlSalidas.Shared/ControlSalidas.Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "ControlSalidas.Shared >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 8.0.5",
       "Microsoft.EntityFrameworkCore.Sqlite >= 8.0.5",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.5",
@@ -3078,7 +3094,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\samue\\source\\repos\\ControlSalidas.API\\ControlSalidas.Shared\\ControlSalidas.Shared.csproj": {
+              "projectPath": "C:\\Users\\samue\\source\\repos\\ControlSalidas.API\\ControlSalidas.Shared\\ControlSalidas.Shared.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

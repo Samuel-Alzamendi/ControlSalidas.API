@@ -7,12 +7,16 @@ C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\bin\Debug\net8
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\bin\Debug\net8.0\ControlSalidas.Web.runtimeconfig.json
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\bin\Debug\net8.0\ControlSalidas.Web.dll
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\bin\Debug\net8.0\ControlSalidas.Web.pdb
+C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\bin\Debug\net8.0\ControlSalidas.Shared.dll
+C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\bin\Debug\net8.0\ControlSalidas.Shared.pdb
+C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.csproj.AssemblyReference.cache
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\rpswa.dswa.cache.json
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.AssemblyInfoInputs.cache
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.AssemblyInfo.cs
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.csproj.CoreCompileInputs.cache
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.sourcelink.json
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
@@ -25,9 +29,9 @@ C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlS.7CE869D7.Up2Date
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.dll
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\refint\ControlSalidas.Web.dll
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.pdb
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.genruntimeconfig.cache
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ref\ControlSalidas.Web.dll
-C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.Web\obj\Debug\net8.0\ControlSalidas.Web.sourcelink.json

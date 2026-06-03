@@ -1,8 +1,8 @@
-﻿namespace ControlSalidas.API.Models
+﻿namespace ControlSalidas.Shared.Request
 {
     public class RegistarFuncionarioRequest
     {
-        public int Ci { get; set; } = 0;
+        public string Ci { get; set; } = "";
         public string Nombre { get; set; } = "";
         public string Cargo { get; set; } = "";
 

@@ -12,7 +12,7 @@
         public string Estado { get; set; } = "";
         // hay q crear el modelo hospital en Models
         //public List<Hospital> Hospital { get; set; } = new List<Hospital>();
-        public List<Funcionario> Funcionarios { get; set; } = new List<Funcionario>();
+        public List<int> IdFuncionarios { get; set; } = new List<int>();
 
 
     }

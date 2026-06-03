@@ -3,7 +3,7 @@
     public class Funcionario
     {
         public int Id { get; set; }
-        public int Ci {  get; set; }
+        public string Ci { get; set; } = "";
         public string Nombre { get; set; } = "";
         public string Cargo { get; set; } = "";
         public int Noches { get; set; } = 0;

@@ -1,5 +1,6 @@
 ﻿using ControlSalidas.API.Data;
 using ControlSalidas.API.Models;
+using ControlSalidas.Shared.Request;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -64,11 +65,7 @@ public class FuncionariosController : ControllerBase
                     s.Noches,
                     s.SalidasCalculadas,
                     estado,
-                    Funcionarios = s.Funcionarios.Select(f => new
-                    {
-                        f.Id,
-                        f.Nombre
-                    })
+                    s.IdFuncionarios
                 };
 
             })
@@ -108,7 +105,7 @@ public class FuncionariosController : ControllerBase
         {
             return BadRequest("Error, usuario invalido");
         }
-        else if (Math.Abs(request.Ci).ToString().Length < 8 || Math.Abs(request.Ci).ToString().Length > 8)
+        else if (request.Ci.ToString().Length < 8 || request.Ci.ToString().Length > 8)
         {
             return BadRequest("Error, CI invalida");
         }
@@ -139,7 +136,7 @@ public class FuncionariosController : ControllerBase
         {
             return BadRequest("La fecha de salida no puede ser anterior a la fecha de llegada");
         }
-        else if(request.HospitalId == null)
+        else if(request.HospitalesIds == null)
         {
             return BadRequest("Ningun hopital valido seleccionado");
         }
@@ -184,8 +181,8 @@ public class FuncionariosController : ControllerBase
             //    nombre = request.hospital.nombre
             //};
 
-            var hospital = _context.Hospitales
-                .Where(f => request.HospitalId.Contains(f.Id))
+            var hospitales = _context.Hospitales
+                .Where(f => request.HospitalesIds.Contains(f.Id))
                 .ToList();
 
             var salida = new Salida
@@ -195,8 +192,8 @@ public class FuncionariosController : ControllerBase
                 Dias = dias,
                 Noches = noches,
                 SalidasCalculadas = salidasCalculadas,
-                Hospital = hospital,
-                Funcionarios = funcionarios
+                Hospitales = hospitales,
+                IdFuncionarios = request.FuncionariosIds
             };
             _context.Salidas.Add(salida);
             _context.SaveChanges();
@@ -207,7 +204,6 @@ public class FuncionariosController : ControllerBase
                 funcionario.DiasFuera += dias;
                 funcionario.Noches += noches;
 
-                // averiguar porque los obj funcionario y salida no son accesibles en salida funcionario
                 var salidaFuncionario = new SalidaFuncionario
                 {
                     SalidaId = salida.Id,
@@ -218,7 +214,6 @@ public class FuncionariosController : ControllerBase
                 _context.SaveChanges();
             }
 
-
             return Ok(new
             {
                 mensaje = "Salida registrada correctamente",
@@ -227,7 +222,7 @@ public class FuncionariosController : ControllerBase
                 salidasCalculadas,
                 fechaSalida = salida.FechaSalida,
                 fechaLlegada = salida.FechaLlegada,
-                hospital = salida.Hospital
+                hospital = salida.Hospitales
             });
 
         }// else

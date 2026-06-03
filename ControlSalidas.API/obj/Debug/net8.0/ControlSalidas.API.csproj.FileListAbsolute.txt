@@ -112,6 +112,8 @@ C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\bin\Debug\net8
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\bin\Debug\net8.0\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\bin\Debug\net8.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\bin\Debug\net8.0\runtimes\win-x86\native\e_sqlite3.dll
+C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\bin\Debug\net8.0\ControlSalidas.Shared.dll
+C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\bin\Debug\net8.0\ControlSalidas.Shared.pdb
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ControlSalidas.API.csproj.AssemblyReference.cache
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\rpswa.dswa.cache.json
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ControlSalidas.API.GeneratedMSBuildEditorConfig.editorconfig
@@ -120,6 +122,7 @@ C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ControlSalidas.API.csproj.CoreCompileInputs.cache
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ControlSalidas.API.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ControlSalidas.API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ControlSalidas.API.sourcelink.json
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
@@ -135,4 +138,3 @@ C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ControlSalidas.API.pdb
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ControlSalidas.API.genruntimeconfig.cache
 C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ref\ControlSalidas.API.dll
-C:\Users\samue\source\repos\ControlSalidas.API\ControlSalidas.API\obj\Debug\net8.0\ControlSalidas.API.sourcelink.json
