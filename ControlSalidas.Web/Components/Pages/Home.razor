@@ -60,20 +60,20 @@ else
             @foreach (var s in salidas)
             {
                 <tr>
-                    <td>@s.fechaSalida</td>
-                    <td>@s.fechaLlegada</td>
+                    <td>@s.FechaSalida</td>
+                    <td>@s.FechaLlegada</td>
                     <td>
-                        @if (s.estado == "En curso")
+                        @if (s.Estado == "En curso")
                         {
-                            <span class="badge bg-success">@s.estado</span>
+                            <span class="badge bg-success">@s.Estado</span>
                         }
-                        else if (s.estado == "Finalizado")
+                        else if (s.Estado == "Finalizado")
                         {
-                            <span class="badge bg-secondary">@s.estado</span>
+                            <span class="badge bg-secondary">@s.Estado</span>
                         }
-                        else if (s.estado == "Para salir")
+                        else if (s.Estado == "Para salir")
                         {
-                            <span class="badge bg-primary">@s.estado</span>
+                            <span class="badge bg-primary">@s.Estado</span>
                         }
                     </td>
                 </tr>

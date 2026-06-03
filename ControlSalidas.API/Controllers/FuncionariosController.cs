@@ -1,6 +1,7 @@
 ﻿using ControlSalidas.API.Data;
 using ControlSalidas.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ControlSalidas.API.Controllers;
 
@@ -38,15 +39,15 @@ public class FuncionariosController : ControllerBase
 
         var salidas = _context.Salidas
             .AsEnumerable()
-            .OrderBy(f => f.fechaSalida.ToDateTime(TimeOnly.MinValue)).Reverse()
+            .OrderBy(f => f.FechaSalida.ToDateTime(TimeOnly.MinValue)).Reverse()
             .Select(s =>
             {
                 string estado = "";
-                if (s.fechaSalida > hoy)
+                if (s.FechaSalida > hoy)
                 {
                     estado = "Para salir";
                 }
-                else if (s.fechaLlegada < hoy)
+                else if (s.FechaLlegada < hoy)
                 {
                     estado = "Finalizado";
                 }
@@ -57,12 +58,17 @@ public class FuncionariosController : ControllerBase
 
                 return new
                 {
-                    s.id,
-                    s.fechaSalida,
-                    s.fechaLlegada,
-                    s.noches,
-                    s.salidasCalculadas,
-                    estado
+                    s.Id,
+                    s.FechaSalida,
+                    s.FechaLlegada,
+                    s.Noches,
+                    s.SalidasCalculadas,
+                    estado,
+                    Funcionarios = s.Funcionarios.Select(f => new
+                    {
+                        f.Id,
+                        f.Nombre
+                    })
                 };
 
             })
@@ -77,7 +83,7 @@ public class FuncionariosController : ControllerBase
     public IActionResult ObtenerSalidaFuncionario()
     {
         var salidaFuncionarios = _context.SalidaFuncionarios
-            .OrderBy(f => f.salidaId)
+            .OrderBy(sf => sf.SalidaId)
             .ToList();
 
         return Ok(salidaFuncionarios);
@@ -87,7 +93,7 @@ public class FuncionariosController : ControllerBase
     public IActionResult ObtenerHospitales()
     {
         var hospitales = _context.Hospitales
-            .OrderBy(f => f.departamento)
+            .OrderBy(f => f.Departamento)
             .ToList();
 
         return Ok(hospitales);
@@ -126,14 +132,14 @@ public class FuncionariosController : ControllerBase
     [HttpPost("Registrar_salida")]
     public IActionResult RegistrarSalida(RegistrarSalidaRequest request)
     {
-        if(request.funcionariosIds == null)  
+        if(request.FuncionariosIds == null)  
         {
             return BadRequest("Ningun funcionario seleccionado");
-        } else if (request.fechaSalida.DayNumber > request.fechaLlegada.DayNumber)
+        } else if (request.FechaSalida.DayNumber > request.FechaLlegada.DayNumber)
         {
             return BadRequest("La fecha de salida no puede ser anterior a la fecha de llegada");
         }
-        else if(request.hospitalId == null)
+        else if(request.HospitalId == null)
         {
             return BadRequest("Ningun hopital valido seleccionado");
         }
@@ -141,7 +147,7 @@ public class FuncionariosController : ControllerBase
         {
 
             var funcionarios = _context.Funcionarios
-                    .Where(f => request.funcionariosIds.Contains(f.Id))
+                    .Where(f => request.FuncionariosIds.Contains(f.Id))
                     .ToList();
 
             //var funcionario = _context.Funcionarios
@@ -152,7 +158,7 @@ public class FuncionariosController : ControllerBase
                 return NotFound("Funcionarios no encontrado");
             }
 
-            int dias = (request.fechaLlegada.Day - request.fechaSalida.Day) + 1;
+            int dias = (request.FechaLlegada.Day - request.FechaSalida.Day) + 1;
             int noches = 0;
             if (dias >= 2)
             {
@@ -179,17 +185,18 @@ public class FuncionariosController : ControllerBase
             //};
 
             var hospital = _context.Hospitales
-                .Where(f => request.hospitalId.Contains(f.id))
+                .Where(f => request.HospitalId.Contains(f.Id))
                 .ToList();
 
             var salida = new Salida
             {
-                fechaSalida = request.fechaSalida,
-                fechaLlegada = request.fechaLlegada,
-                dias = dias,
-                noches = noches,
-                salidasCalculadas = salidasCalculadas,
-                hospital = hospital
+                FechaSalida = request.FechaSalida,
+                FechaLlegada = request.FechaLlegada,
+                Dias = dias,
+                Noches = noches,
+                SalidasCalculadas = salidasCalculadas,
+                Hospital = hospital,
+                Funcionarios = funcionarios
             };
             _context.Salidas.Add(salida);
             _context.SaveChanges();
@@ -203,10 +210,8 @@ public class FuncionariosController : ControllerBase
                 // averiguar porque los obj funcionario y salida no son accesibles en salida funcionario
                 var salidaFuncionario = new SalidaFuncionario
                 {
-                    salidaId = salida.id,
-                    salida = salida,
-                    funcionario = funcionario
-
+                    SalidaId = salida.Id,
+                    FuncionarioId = funcionario.Id
                 };
 
                 _context.SalidaFuncionarios.Add(salidaFuncionario);
@@ -220,9 +225,9 @@ public class FuncionariosController : ControllerBase
                 dias,
                 noches,
                 salidasCalculadas,
-                fechaSalida = salida.fechaSalida,
-                fechaLlegada = salida.fechaLlegada,
-                hospital = salida.hospital
+                fechaSalida = salida.FechaSalida,
+                fechaLlegada = salida.FechaLlegada,
+                hospital = salida.Hospital
             });
 
         }// else
@@ -234,10 +239,10 @@ public class FuncionariosController : ControllerBase
 
         var hospital = new Hospital
         {
-            id = request.id,
-            nombre = request.nombre,
-            departamento = request.departamento,
-            ciudad = request.ciudad
+            Id = request.Id,
+            Nombre = request.Nombre,
+            Departamento = request.Departamento,
+            Ciudad = request.Ciudad
         };
 
         _context.Hospitales.Add(hospital);

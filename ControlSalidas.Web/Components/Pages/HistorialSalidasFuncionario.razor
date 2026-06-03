@@ -13,11 +13,49 @@
 else
 {
     <table class="table">
+
         <thead>
+            <tr>
+                <th>Fecha de salida</th>
+                <th>Fecha de llegada</th>
+                <th>Funcionarios</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var s in salidas)
+            {
+                <tr>
+                    <td>@s.FechaSalida</td>
+                    <td>@s.FechaLlegada</td>
+
+                    <td>
+                        @string.Join(", ",
+                        s.Funcionarios.Select(f => f.nombre))
+                    </td>
+                    <td>
+                        @if (s.Estado == "En curso")
+                        {
+                            <span class="badge bg-success">@s.Estado</span>
+                            }
+                                else if (s.Estado == "Finalizado")
+                            {
+                                <span class="badge bg-secondary">@s.Estado</span>
+                            }
+                            else if (s.Estado == "Para salir")
+                            {
+                                <span class="badge bg-primary">@s.Estado</span>
+                            }
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+        @* <thead>
             <tr>
                 <th>ID</th>
                 <th>Salida ID</th>
-                <th>Estado de salida</th>
                 <th>Funcionario ID</th>
                 <th>Nombre funcionario</th>
             </tr>
@@ -26,36 +64,43 @@ else
         <tbody>
             @foreach (var f in salidaFuncionarios)
             {
-                /*
-                
-                no se puede llamar a obj referenciales, da error,
-                no puedo llamar a estado por el obj salida
-                
-                */
-                    <tr>
-                        <td>@f.id</td>
-                        <td>@f.salidaId</td>
-                        <td>@f.funcionario</td>
-                    </tr>
+
+                <tr>
+                    <td>@f.id</td>
+                    <td>@f.salidaId</td>
+                    <td>@f.funcionario?.id</td>
+                    <td>@f.funcionario?.nombre</td>
+                </tr>
                 
 
             }
-        </tbody>
+        </tbody> *@
     </table>
 }
 
 @code {
-
     List<SalidaFuncionario>? salidaFuncionarios;
     List<Salida>? salidas;
 
     protected override async Task OnInitializedAsync()
     {
         salidaFuncionarios = await Http.GetFromJsonAsync<List<SalidaFuncionario>>(
-            "api/Funcionarios/Obtener_salidas");
-
-        
+            "api/Funcionarios/Obtener_salidas_Funcionarios");
         salidas = await Http.GetFromJsonAsync<List<Salida>>(
-            "api/Funcionarios/Obtener_salidas");
+        "api/Funcionarios/Obtener_salidas");
     }
 }
+
+
+
+@* @code {
+
+    List<SalidaFuncionario>? salidaFuncionarios;
+
+    protected override async Task OnInitializedAsync()
+    {
+        salidaFuncionarios = await Http.GetFromJsonAsync<List<SalidaFuncionario>>(
+            "api/Funcionarios/Obtener_Salida_Funcionario");
+    }
+}
+ *@

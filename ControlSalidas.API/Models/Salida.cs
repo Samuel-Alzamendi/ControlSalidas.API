@@ -9,7 +9,7 @@
         public int Noches { get; set; }
         public int SalidasCalculadas { get; set; }
         public List<Hospital> Hospital { get; set; } = new List<Hospital>();
-        public List<SalidaFuncionario> Funcionarios { get; set; } = new List<SalidaFuncionario>();
+        public List<Funcionario> Funcionarios { get; set; } = new List<Funcionario>();
 
     }// class
 }// namespace
