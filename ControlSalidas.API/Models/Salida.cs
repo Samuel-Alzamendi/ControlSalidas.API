@@ -2,14 +2,14 @@
 {
     public class Salida
     {
-        public int id { get; set; }
-        public DateOnly fechaSalida { get; set; }
-        public DateOnly fechaLlegada { get; set; }
-        public int dias { get; set; }
-        public int noches { get; set; }
-        public int salidasCalculadas { get; set; }
-        public List<Hospital> hospital { get; set; }
-        public List<SalidaFuncionario> Funcionarios { get; set; }
+        public int Id { get; set; }
+        public DateOnly FechaSalida { get; set; }
+        public DateOnly FechaLlegada { get; set; }
+        public int Dias { get; set; }
+        public int Noches { get; set; }
+        public int SalidasCalculadas { get; set; }
+        public List<Hospital> Hospital { get; set; } = new List<Hospital>();
+        public List<SalidaFuncionario> Funcionarios { get; set; } = new List<SalidaFuncionario>();
 
     }// class
 }// namespace

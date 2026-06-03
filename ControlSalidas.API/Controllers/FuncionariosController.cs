@@ -83,7 +83,6 @@ public class FuncionariosController : ControllerBase
         return Ok(salidaFuncionarios);
     }
 
-
     [HttpGet("Obtener_hospitales")]
     public IActionResult ObtenerHospitales()
     {
