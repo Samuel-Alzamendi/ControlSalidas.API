@@ -25,7 +25,7 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "ControlSalidas.API.Models.RegistrarHospitalRequest",
+        "Type": "ControlSalidas.Shared.Request.RegistrarHospitalRequest",
         "IsRequired": true
       }
     ],
@@ -81,7 +81,7 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "ControlSalidas.API.Models.RegistrarSalidaRequest",
+        "Type": "ControlSalidas.Shared.Request.RegistrarSalidaRequest",
         "IsRequired": true
       }
     ],

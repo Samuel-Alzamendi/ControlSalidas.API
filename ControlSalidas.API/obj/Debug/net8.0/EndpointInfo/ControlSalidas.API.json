@@ -170,10 +170,6 @@
       "RegistrarHospitalRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
           "nombre": {
             "type": "string",
             "nullable": true
@@ -200,6 +196,14 @@
             },
             "nullable": true
           },
+          "hospitalesIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
           "fechaSalida": {
             "type": "string",
             "format": "date"
@@ -207,14 +211,6 @@
           "fechaLlegada": {
             "type": "string",
             "format": "date"
-          },
-          "hospitalesId": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false

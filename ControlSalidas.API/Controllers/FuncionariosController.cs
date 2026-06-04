@@ -234,7 +234,6 @@ public class FuncionariosController : ControllerBase
 
         var hospital = new Hospital
         {
-            Id = request.Id,
             Nombre = request.Nombre,
             Departamento = request.Departamento,
             Ciudad = request.Ciudad

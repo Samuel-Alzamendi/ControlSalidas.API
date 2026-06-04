@@ -28,24 +28,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZ3JlZ2FyRnVuY2lvbmFyaW8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/samue/source/repos/ControlSalidas.API/ControlSalidas.Web/Components/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3VudGVyLnJhem9y
+[C:/Users/samue/source/repos/ControlSalidas.API/ControlSalidas.Web/Components/Pages/AgregarHospital.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZ3JlZ2FySG9zcGl0YWwucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/samue/source/repos/ControlSalidas.API/ControlSalidas.Web/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/samue/source/repos/ControlSalidas.API/ControlSalidas.Web/Components/Pages/HistorialSalidasFuncionario.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIaXN0b3JpYWxTYWxpZGFzRnVuY2lvbmFyaW8ucmF6b3I=
+[C:/Users/samue/source/repos/ControlSalidas.API/ControlSalidas.Web/Components/Pages/HistorialSalidas.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIaXN0b3JpYWxTYWxpZGFzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/samue/source/repos/ControlSalidas.API/ControlSalidas.Web/Components/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/samue/source/repos/ControlSalidas.API/ControlSalidas.Web/Components/Pages/Weather.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xXZWF0aGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/samue/source/repos/ControlSalidas.API/ControlSalidas.Web/Components/Routes.razor]

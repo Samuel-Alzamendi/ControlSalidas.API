@@ -1,0 +1,95 @@
+﻿@page "/AgregarHospital"
+@rendermode InteractiveServer
+
+@using ControlSalidas.Shared.Request;
+@using ControlSalidas.Web.Models
+@inject HttpClient Http
+
+<h3>Agregar Funcionario</h3>
+
+<PageTitle>Agregar funcionario</PageTitle>
+
+@if (hospitales == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <InputText class="form-control"
+                   @bind-Value="nuevoHospital.Nombre" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Departamento</label>
+        <InputText class="form-control"
+                   @bind-Value="nuevoHospital.Departamento" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Ciudad</label>
+        <InputText class="form-control"
+                   @bind-Value="nuevoHospital.Ciudad" />
+    </div>
+
+    <button class="btn btn-primary"
+            @onclick="AgregarFuncionarioWeb">
+        Agregar
+    </button>
+
+    <hr />
+
+    <h4>Funcionarios registrados</h4>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Departamento</th>
+                <th>Ciudad</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var f in hospitales)
+            {
+                <tr>
+                    <td>@f.Id</td>
+                    <td>@f.Nombre</td>
+                    <td>@f.Departamento</td>
+                    <td>@f.Ciudad</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private List<Hospital>? hospitales;
+
+    private RegistrarHospitalRequest nuevoHospital = new RegistrarHospitalRequest();
+
+    private async Task AgregarFuncionarioWeb()
+    {
+        var response = await Http.PostAsJsonAsync(
+            "api/Funcionarios/Agregar_hospital",
+            nuevoHospital);
+        Console.WriteLine($"Status: {response.StatusCode}");
+
+        var contenido = await response.Content.ReadAsStringAsync();
+        Console.WriteLine(contenido);
+        if (response.IsSuccessStatusCode)
+        {
+            hospitales = await Http.GetFromJsonAsync<List<Hospital>>(
+                "api/Funcionarios/Obtener_hospitales");
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        hospitales = await Http.GetFromJsonAsync<List<Hospital>>(
+            "api/Funcionarios/Obtener_hospitales");
+    }
+}
