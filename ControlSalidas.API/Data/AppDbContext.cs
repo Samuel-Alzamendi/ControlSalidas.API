@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ControlSalidas.API.Models;
+using ControlSalidas.Shared.Models;
 
 namespace ControlSalidas.API.Data;
 

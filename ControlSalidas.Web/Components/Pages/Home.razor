@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-@using ControlSalidas.Web.Models
+@using ControlSalidas.Shared.Models
 @inject HttpClient Http
 
 <PageTitle>Home</PageTitle>
@@ -28,11 +28,11 @@ else
             @foreach (var f in funcionarios)
             {
                 <tr>
-                    <td>@f.id</td>
-                    <td>@f.nombre</td>
-                    <td>@f.noches</td>
-                    <td>@f.diasFuera</td>
-                    <th>@f.cantidadSalidas</th>
+                    <td>@f.Id</td>
+                    <td>@f.Nombre</td>
+                    <td>@f.Noches</td>
+                    <td>@f.DiasFuera</td>
+                    <th>@f.CantidadSalidas</th>
                 </tr>
             }
         </tbody>

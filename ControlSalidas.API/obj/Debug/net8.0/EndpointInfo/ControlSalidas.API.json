@@ -163,6 +163,14 @@
           "cargo": {
             "type": "string",
             "nullable": true
+          },
+          "horarioLaboralEntrada": {
+            "type": "string",
+            "format": "time"
+          },
+          "horarioLaboralSalida": {
+            "type": "string",
+            "format": "time"
           }
         },
         "additionalProperties": false
@@ -211,6 +219,22 @@
           "fechaLlegada": {
             "type": "string",
             "format": "date"
+          },
+          "horariosDesdeQueHora": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "time"
+            },
+            "nullable": true
+          },
+          "horariosHastaQueHora": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "time"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

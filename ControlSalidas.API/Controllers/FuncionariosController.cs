@@ -1,5 +1,5 @@
 ﻿using ControlSalidas.API.Data;
-using ControlSalidas.API.Models;
+using ControlSalidas.Shared.Models;
 using ControlSalidas.Shared.Request;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -123,29 +123,37 @@ public class FuncionariosController : ControllerBase
 
             return Ok(funcionario);
         }
-            
+
     }
 
     [HttpPost("Registrar_salida")]
     public IActionResult RegistrarSalida(RegistrarSalidaRequest request)
     {
-        if(request.FuncionariosIds == null)  
+        if (request.FuncionariosIds == null)
         {
             return BadRequest("Ningun funcionario seleccionado");
         } else if (request.FechaSalida.DayNumber > request.FechaLlegada.DayNumber)
         {
             return BadRequest("La fecha de salida no puede ser anterior a la fecha de llegada");
         }
-        else if(request.HospitalesIds == null)
+        else if (request.HospitalesIds == null)
         {
             return BadRequest("Ningun hopital valido seleccionado");
+        }else if(request.HorariosHastaQueHora.Length < ((request.FechaLlegada.Day - request.FechaSalida.Day) + 1)
+            || request.HorariosHastaQueHora.Length > ((request.FechaLlegada.Day - request.FechaSalida.Day) + 1)) 
+        {
+            return BadRequest("Horario invalido o cantidad de horarios invalidos");
+        }else if(request.HorariosHastaQueHora.Length != request.HorariosDesdeQueHora.Length)
+        {
+            return BadRequest("Horario de diferentes cantidades");
         }
         else
         {
-
             var funcionarios = _context.Funcionarios
                     .Where(f => request.FuncionariosIds.Contains(f.Id))
                     .ToList();
+
+            
 
             //var funcionario = _context.Funcionarios
             //    .FirstOrDefault(f => f.id == request.funcionarioId);
@@ -181,6 +189,7 @@ public class FuncionariosController : ControllerBase
             //    nombre = request.hospital.nombre
             //};
 
+            // no se esta usando porque se cambio por hospitales ids
             var hospitales = _context.Hospitales
                 .Where(f => request.HospitalesIds.Contains(f.Id))
                 .ToList();
@@ -192,17 +201,52 @@ public class FuncionariosController : ControllerBase
                 Dias = dias,
                 Noches = noches,
                 SalidasCalculadas = salidasCalculadas,
-                Hospitales = hospitales,
+                HospitalesIds = request.HospitalesIds,
                 IdFuncionarios = request.FuncionariosIds
             };
             _context.Salidas.Add(salida);
             _context.SaveChanges();
+
+
+
+
+
+            //-------------------------------------------------------------------------------------------------------
+            // calcular horas y horas extra de los funcionarios, ns como hacerlo
+
+            //int HastaQueHora = 0;
+            //foreach(var hastaQueHoraFor in request.HorariosHastaQueHora)
+            //{   if(hastaQueHoraFor.Hour > 22)
+            //    {
+            //        return BadRequest("Horario fuera de rango");
+            //    }
+            //    HastaQueHora = HastaQueHora + hastaQueHoraFor.Hour;
+            //}
+
+            //int[] cantHorasComunesF = new int[funcionarios.Count];
+            //int[] horasTotal = new int[request.HorariosHastaQueHora.Length];
+            //for(int i=0; i<funcionarios.Count; i++)
+            //{
+            //    foreach(var f in funcionarios)
+            //    {
+            //        cantHorasComunesF[i] = ((f.HorarioLaboralSalida.Hour - f.HorarioLaboralEntrada.Hour) +1);
+            //    }
+            //}
 
             foreach (var funcionario in funcionarios)
             {
                 funcionario.CantidadSalidas += salidasCalculadas;
                 funcionario.DiasFuera += dias;
                 funcionario.Noches += noches;
+                //if(HastaQueHora > (funcionario.HorarioLaboralSalida.Hour * dias))
+                //{
+                //    funcionario.cantidadHorasExtra = HastaQueHora - (funcionario.HorarioLaboralSalida.Hour * dias);
+                //}if(HastaQueHora < (funcionario.HorarioLaboralSalida.Hour * dias))
+                //{
+
+                //}
+
+                
 
                 var salidaFuncionario = new SalidaFuncionario
                 {
@@ -222,7 +266,7 @@ public class FuncionariosController : ControllerBase
                 salidasCalculadas,
                 fechaSalida = salida.FechaSalida,
                 fechaLlegada = salida.FechaLlegada,
-                hospital = salida.Hospitales
+                hospital = salida.HospitalesIds
             });
 
         }// else

@@ -3,6 +3,7 @@ using System;
 using ControlSalidas.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,14 +11,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlSalidas.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260604234350_HorasExtraCopiaSeguridad")]
+    partial class HorasExtraCopiaSeguridad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
 
-            modelBuilder.Entity("ControlSalidas.Shared.Models.Funcionario", b =>
+            modelBuilder.Entity("ControlSalidas.API.Models.Funcionario", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,7 +64,7 @@ namespace ControlSalidas.API.Migrations
                     b.ToTable("Funcionarios");
                 });
 
-            modelBuilder.Entity("ControlSalidas.Shared.Models.Hospital", b =>
+            modelBuilder.Entity("ControlSalidas.API.Models.Hospital", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,7 +87,7 @@ namespace ControlSalidas.API.Migrations
                     b.ToTable("Hospitales");
                 });
 
-            modelBuilder.Entity("ControlSalidas.Shared.Models.Salida", b =>
+            modelBuilder.Entity("ControlSalidas.API.Models.Salida", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -92,10 +95,6 @@ namespace ControlSalidas.API.Migrations
 
                     b.Property<int>("Dias")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<DateOnly>("FechaLlegada")
                         .HasColumnType("TEXT");
@@ -122,7 +121,7 @@ namespace ControlSalidas.API.Migrations
                     b.ToTable("Salidas");
                 });
 
-            modelBuilder.Entity("ControlSalidas.Shared.Models.SalidaFuncionario", b =>
+            modelBuilder.Entity("ControlSalidas.API.Models.SalidaFuncionario", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

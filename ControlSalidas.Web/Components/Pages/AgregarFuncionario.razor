@@ -1,8 +1,8 @@
 ﻿@page "/AgregarFuncionario"
 @rendermode InteractiveServer
 
+@using ControlSalidas.Shared.Models
 @using ControlSalidas.Shared.Request;
-@using ControlSalidas.Web.Models
 @inject HttpClient Http
 
 <h3>Agregar Funcionario</h3>
@@ -54,9 +54,9 @@ else
             @foreach (var f in funcionarios)
             {
                 <tr>
-                    <td>@f.id</td>
-                    <td>@f.nombre</td>
-                    <td>@f.ci</td>
+                    <td>@f.Id</td>
+                    <td>@f.Nombre</td>
+                    <td>@f.Ci</td>
                 </tr>
             }
         </tbody>
