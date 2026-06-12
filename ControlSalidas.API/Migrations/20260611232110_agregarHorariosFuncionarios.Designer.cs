@@ -3,6 +3,7 @@ using System;
 using ControlSalidas.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlSalidas.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260611232110_agregarHorariosFuncionarios")]
+    partial class agregarHorariosFuncionarios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
@@ -74,33 +77,6 @@ namespace ControlSalidas.API.Migrations
                     b.ToTable("HorarioLaboral");
                 });
 
-            modelBuilder.Entity("ControlSalidas.Shared.Models.HorasSalidaFuncionario", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("FuncionarioId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<double>("HorasExtra")
-                        .HasColumnType("REAL");
-
-                    b.Property<double>("HorasNormales")
-                        .HasColumnType("REAL");
-
-                    b.Property<int>("SalidaId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FuncionarioId");
-
-                    b.HasIndex("SalidaId");
-
-                    b.ToTable("HorasSalidaFuncionarios");
-                });
-
             modelBuilder.Entity("ControlSalidas.Shared.Models.Hospital", b =>
                 {
                     b.Property<int>("Id")
@@ -122,43 +98,6 @@ namespace ControlSalidas.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hospitales");
-                });
-
-            modelBuilder.Entity("ControlSalidas.Shared.Models.ResumenMensualFuncionario", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Anio")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CantidadSalidas")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DiasFuera")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("FuncionarioId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<double>("HorasExtra")
-                        .HasColumnType("REAL");
-
-                    b.Property<double>("HorasNormales")
-                        .HasColumnType("REAL");
-
-                    b.Property<int>("Mes")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Noches")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FuncionarioId");
-
-                    b.ToTable("ResumenesMensuales");
                 });
 
             modelBuilder.Entity("ControlSalidas.Shared.Models.Salida", b =>
@@ -221,36 +160,6 @@ namespace ControlSalidas.API.Migrations
                     b.HasOne("ControlSalidas.Shared.Models.Funcionario", null)
                         .WithMany("Horarios")
                         .HasForeignKey("FuncionarioId");
-                });
-
-            modelBuilder.Entity("ControlSalidas.Shared.Models.HorasSalidaFuncionario", b =>
-                {
-                    b.HasOne("ControlSalidas.Shared.Models.Funcionario", "Funcionario")
-                        .WithMany()
-                        .HasForeignKey("FuncionarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ControlSalidas.Shared.Models.Salida", "Salida")
-                        .WithMany()
-                        .HasForeignKey("SalidaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Funcionario");
-
-                    b.Navigation("Salida");
-                });
-
-            modelBuilder.Entity("ControlSalidas.Shared.Models.ResumenMensualFuncionario", b =>
-                {
-                    b.HasOne("ControlSalidas.Shared.Models.Funcionario", "Funcionario")
-                        .WithMany()
-                        .HasForeignKey("FuncionarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Funcionario");
                 });
 
             modelBuilder.Entity("ControlSalidas.Shared.Models.Funcionario", b =>

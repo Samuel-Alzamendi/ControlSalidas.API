@@ -15,10 +15,12 @@ namespace ControlSalidas.Shared.Models
         public int Noches { get; set; } = 0;
         public int CantidadSalidas { get; set; } = 0;
         public int DiasFuera { get; set; } = 0;
-        public TimeOnly HorarioLaboralEntrada { get; set; } = new TimeOnly(7, 0, 0);
-        public TimeOnly HorarioLaboralSalida { get; set; } = new TimeOnly(13, 0, 0);
-        public int cantidadHorasPertenecientes { get; set; } = 0;
-        public int cantidadHorasExtra { get; set; } = 0;
+        public ICollection<HorarioLaboral> Horarios { get; set; } = new List<HorarioLaboral>();
+
+        //public TimeOnly HorarioLaboralEntrada { get; set; } = new TimeOnly(7, 0, 0);
+        //public TimeOnly HorarioLaboralSalida { get; set; } = new TimeOnly(13, 0, 0);
+        //public int cantidadHorasPertenecientes { get; set; } = 0;
+        //public int cantidadHorasExtra { get; set; } = 0;
 
     }
 }

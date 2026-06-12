@@ -22,6 +22,7 @@ public class FuncionariosController : ControllerBase
     public IActionResult ObtenerFuncionarios()
     {
         var funcionarios = _context.Funcionarios
+        .Include(f => f.Horarios)
         .OrderBy(f => f.Noches)
         .ThenBy(f => f.DiasFuera)
         .ToList();
@@ -97,7 +98,7 @@ public class FuncionariosController : ControllerBase
     }
     #endregion
 
-    #region Sets
+    #region Post
     [HttpPost("Agregar_funcionarios")]
     public IActionResult AgregarFuncionario(RegistarFuncionarioRequest request)
     {
@@ -115,10 +116,31 @@ public class FuncionariosController : ControllerBase
             {
                 Ci = request.Ci,
                 Nombre = request.Nombre,
-                Cargo = request.Cargo
+                Cargo = request.Cargo,
+                Horarios = request.Horarios.Select(h => new HorarioLaboral
+                {
+                    DiaSemana = h.DiaSemana,
+                    HoraEntrada = h.HoraEntrada,
+                    HoraSalida = h.HoraSalida
+                }).ToList()
             };
 
             _context.Funcionarios.Add(funcionario);
+            _context.SaveChanges();
+
+            var resumen = new ResumenMensualFuncionario
+            {
+                FuncionarioId = funcionario.Id,
+                Anio = DateTime.Now.Year,
+                Mes = DateTime.Now.Month,
+                HorasNormales = 0,
+                HorasExtra = 0,
+                CantidadSalidas = 0,
+                DiasFuera = 0,
+                Noches = 0
+            };
+
+            _context.ResumenesMensuales.Add(resumen);
             _context.SaveChanges();
 
             return Ok(funcionario);
@@ -238,15 +260,71 @@ public class FuncionariosController : ControllerBase
                 funcionario.CantidadSalidas += salidasCalculadas;
                 funcionario.DiasFuera += dias;
                 funcionario.Noches += noches;
-                //if(HastaQueHora > (funcionario.HorarioLaboralSalida.Hour * dias))
-                //{
-                //    funcionario.cantidadHorasExtra = HastaQueHora - (funcionario.HorarioLaboralSalida.Hour * dias);
-                //}if(HastaQueHora < (funcionario.HorarioLaboralSalida.Hour * dias))
-                //{
 
-                //}
+                // calcular horas normales y extra
+                double horasNormales = 0;
+                double horasExtra = 0;
 
-                
+                for (int i = 0; i < request.HorariosHastaQueHora.Length; i++)
+                {
+                    var fechaActual = request.FechaSalida.AddDays(i);
+
+                    bool esDiaLaboral = true;
+
+                    // verifica que dia trabaja
+                    var horarioFuncionario = funcionario.Horarios
+                        .FirstOrDefault(h => h.DiaSemana == fechaActual.DayOfWeek);
+
+                    // si no hay dia, significa que no le corresponde
+                    // y las horas son totalmente extra
+                    if (horarioFuncionario == null)
+                    {
+                        esDiaLaboral = false;
+                    }
+
+                    var horaInicioReal = request.HorariosDesdeQueHora[i];
+                    var horaFinReal = request.HorariosHastaQueHora[i];
+
+                    // Tope de las 22:00
+                    if (horaFinReal > new TimeOnly(22, 0))
+                    {
+                        horaFinReal = new TimeOnly(22, 0);
+                    }
+
+                    double horasTrabajadas =
+                        (horaFinReal.ToTimeSpan() -
+                         horaInicioReal.ToTimeSpan())
+                        .TotalHours;
+
+                    if (esDiaLaboral)
+                    {
+                        double horasCorrespondientes =
+                            (horarioFuncionario.HoraSalida -
+                             horarioFuncionario.HoraEntrada)
+                            .TotalHours;
+
+                        // math.min devulve el numero minimo, osea el
+                        // correspondinete a si es menos de su horario o horario completo
+                        horasNormales += Math.Min(
+                            horasTrabajadas,
+                            horasCorrespondientes);
+                        // en caso de las horas extra, devuelve el mas grande,
+                        // que puede pasarse de las correspondientes, dando asi
+                        // las horas extra en esa salida
+                        horasExtra += Math.Max(
+                            0,
+                            horasTrabajadas - horasCorrespondientes);
+                    }
+                    else
+                    {
+                        horasExtra += horasTrabajadas;
+                    }
+
+
+                }
+
+                Console.WriteLine(horasNormales);
+                Console.WriteLine(horasExtra);
 
                 var salidaFuncionario = new SalidaFuncionario
                 {
@@ -254,9 +332,22 @@ public class FuncionariosController : ControllerBase
                     FuncionarioId = funcionario.Id
                 };
 
+                var horasSalida = new HorasSalidaFuncionario
+                {
+                    FuncionarioId = funcionario.Id,
+                    SalidaId = salida.Id,
+                    HorasNormales = horasNormales,
+                    HorasExtra = horasExtra
+                };
+
+                _context.HorasSalidaFuncionarios.Add(horasSalida);
+                _context.SaveChanges();
+
                 _context.SalidaFuncionarios.Add(salidaFuncionario);
                 _context.SaveChanges();
             }
+
+
 
             return Ok(new
             {

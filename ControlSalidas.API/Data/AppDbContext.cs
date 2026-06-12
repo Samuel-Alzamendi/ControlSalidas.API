@@ -14,5 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<Salida> Salidas { get; set; }
     public DbSet<SalidaFuncionario> SalidaFuncionarios { get; set; }
     public DbSet<Hospital> Hospitales { get; set; }
+    public DbSet<HorasSalidaFuncionario> HorasSalidaFuncionarios { get; set; }
+    public DbSet<ResumenMensualFuncionario> ResumenesMensuales { get; set; }
 
 }
