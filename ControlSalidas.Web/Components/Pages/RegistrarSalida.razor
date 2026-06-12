@@ -1,0 +1,193 @@
+﻿@page "/RegistrarSalida"
+@rendermode InteractiveServer
+
+@using ControlSalidas.Shared.Models
+@using ControlSalidas.Shared.Request;
+@inject HttpClient Http
+
+<h3>RegistrarSalida</h3>
+
+<PageTitle>Registrar salida</PageTitle>
+
+<div class="mb-3">
+    <label>Fecha salida</label>
+    <InputDate @bind-Value="nuevaSalida.FechaSalida" />
+</div>
+
+<div class="mb-3">
+    <label>Fecha llegada</label>
+    <InputDate @bind-Value="nuevaSalida.FechaLlegada" />
+</div>
+
+<h5>Funcionarios</h5>
+@if (funcionarios.Count == 0)
+{
+    <p>Cargando funcionarios...</p>
+}
+else
+{
+    @foreach (var funcionario in funcionarios)
+    {
+        <div>
+            <input type="checkbox"
+                   @bind="funcionariosSeleccionados[funcionario.Id]" />
+            @funcionario.Nombre
+        </div>
+    }
+}
+
+<h5>Hospitales</h5>
+
+@foreach (var hospital in hospitales)
+{
+    <div>
+        <input type="checkbox"
+               @bind="hospitalesSeleccionados[hospital.Id]" />
+
+        @hospital.Nombre
+    </div>
+}
+
+<button class="btn btn-secondary"
+        @onclick="GenerarHorarios">
+    Generar horarios
+</button>
+
+@for (int i = 0; i < horariosDias.Count; i++)
+{
+    <div class="border p-2 mb-2">
+
+        <strong>
+            Día @(i + 1)
+            (@nuevaSalida.FechaSalida.AddDays(i))
+        </strong>
+
+        <br />
+
+        <label>Desde</label>
+        <input type="time"
+               @bind="horariosDias[i].Desde" />
+
+        <label>Hasta</label>
+        <input type="time"
+               @bind="horariosDias[i].Hasta" />
+
+    </div>
+}
+
+<button class="btn btn-primary"
+        @onclick="RegistrarSalidaEvent">
+    Registrar salida
+</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@code {
+    public class HorarioDiaViewModel
+    {
+        public TimeOnly Desde { get; set; } = new(7, 0);
+        public TimeOnly Hasta { get; set; } = new(13, 0);
+    } 
+
+    private RegistrarSalidaRequest nuevaSalida = new()
+    {
+        FechaSalida = DateOnly.FromDateTime(DateTime.Today),
+        FechaLlegada = DateOnly.FromDateTime(DateTime.Today)
+    };
+
+    List<SalidaFuncionario>? salidaFuncionarios;
+    List<Salida>? salidas;
+    List<Funcionario> funcionarios = new();
+    private List<Hospital> hospitales = new();
+    private Dictionary<int, bool> funcionariosSeleccionados = new();
+    private Dictionary<int, bool> hospitalesSeleccionados = new();
+    private List<HorarioDiaViewModel> horariosDias = new();
+
+    private void GenerarHorarios()
+    {
+        horariosDias.Clear();
+
+        int dias =
+            nuevaSalida.FechaLlegada.DayNumber -
+            nuevaSalida.FechaSalida.DayNumber + 1;
+
+        for (int i = 0; i < dias; i++)
+        {
+            horariosDias.Add(new HorarioDiaViewModel());
+        }
+    }
+
+    private async Task RegistrarSalidaEvent()
+    {
+        nuevaSalida.FuncionariosIds =
+            funcionariosSeleccionados
+                .Where(x => x.Value)
+                .Select(x => x.Key)
+                .ToList();
+
+        nuevaSalida.HospitalesIds =
+            hospitalesSeleccionados
+                .Where(x => x.Value)
+                .Select(x => x.Key)
+                .ToList();
+
+        nuevaSalida.HorariosDesdeQueHora =
+            horariosDias
+                .Select(x => x.Desde)
+                .ToArray();
+
+        nuevaSalida.HorariosHastaQueHora =
+            horariosDias
+                .Select(x => x.Hasta)
+                .ToArray();
+
+        var response = await Http.PostAsJsonAsync(
+            "api/Funcionarios/Registrar_salida",
+            nuevaSalida);
+
+        var contenido = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            Console.WriteLine($"ERROR: {response.StatusCode}");
+            Console.WriteLine(contenido);
+            return;
+        }
+
+        Console.WriteLine("OK: salida registrada");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        salidaFuncionarios = await Http.GetFromJsonAsync<List<SalidaFuncionario>>(
+            "api/Funcionarios/Obtener_Salidas_Funcionarios");
+
+        salidas = await Http.GetFromJsonAsync<List<Salida>>(
+            "api/Funcionarios/Obtener_Salidas");
+
+        hospitales = await Http.GetFromJsonAsync<List<Hospital>>(
+            "api/Funcionarios/Obtener_Hospitales");
+                        
+        funcionarios = await Http.GetFromJsonAsync<List<Funcionario>>(
+            "api/Funcionarios/Obtener_Funcionarios");
+
+        foreach (var f in funcionarios)
+            funcionariosSeleccionados[f.Id] = false;
+
+        foreach (var h in hospitales)
+            hospitalesSeleccionados[h.Id] = false;
+
+    }
+
+}

@@ -9,12 +9,6 @@
 
 <PageTitle>Agregar funcionario</PageTitle>
 
-@if (funcionarios == null)
-{
-    <p>Cargando...</p>
-}
-else
-{
     <div class="mb-3">
         <label class="form-label">Nombre</label>
         <InputText class="form-control"
@@ -33,6 +27,31 @@ else
                    @bind-Value="nuevoFuncionario.Ci" />
     </div>
 
+    @foreach (var horario in Horarios)
+    {
+        <div class="mb-3 border p-2">
+
+            <InputCheckbox @bind-Value="horario.Seleccionado" />
+
+            <label>@ObtenerNombreDia(horario.DiaSemana)</label>
+
+            @if (horario.Seleccionado)
+            {
+                <div>
+
+                    <label>Horario de entrada</label>
+
+                    <input type="time" @bind="horario.HoraEntrada" />
+
+                    <label>Horario de salida</label>
+
+                    <input type="time" @bind="horario.HoraSalida" />
+                </div>
+            }
+
+        </div>
+    }
+    
     <button class="btn btn-primary"
             @onclick="AgregarFuncionarioWeb">
         Agregar
@@ -40,28 +59,36 @@ else
 
     <hr />
 
-    <h4>Funcionarios registrados</h4>
+    @if (funcionarios == null)
+    {
+        <p>No hay funcionarios registrados...</p>
+    }
+    else
+    {
+        <h4>Funcionarios registrados</h4>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Cédula</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var f in funcionarios)
-            {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@f.Id</td>
-                    <td>@f.Nombre</td>
-                    <td>@f.Ci</td>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Cédula</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var f in funcionarios)
+                {
+                    <tr>
+                        <td>@f.Id</td>
+                        <td>@f.Nombre</td>
+                        <td>@f.Ci</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    
+
 
 @code {
 
@@ -70,15 +97,55 @@ else
     //private Funcionario nuevoFuncionario = new Funcionario();
     private RegistarFuncionarioRequest nuevoFuncionario = new RegistarFuncionarioRequest();
 
+    private List<HorarioViewModel> Horarios = new()
+{
+    new() { DiaSemana = 1 },
+    new() { DiaSemana = 2 },
+    new() { DiaSemana = 3 },
+    new() { DiaSemana = 4 },
+    new() { DiaSemana = 5 },
+    new() { DiaSemana = 6 },
+    new() { DiaSemana = 0 }
+};
+
+    private string ObtenerNombreDia(int dia)
+    {
+        return dia switch
+        {
+            0 => "Domingo",
+            1 => "Lunes",
+            2 => "Martes",
+            3 => "Miércoles",
+            4 => "Jueves",
+            5 => "Viernes",
+            6 => "Sábado",
+            _ => ""
+        };
+    }
+
+
+
     private async Task AgregarFuncionarioWeb()
     {
+        nuevoFuncionario.Horarios = Horarios
+            .Where(h => h.Seleccionado)
+            .Select(h => new HorarioLaboral
+            {
+                DiaSemana = (DayOfWeek)h.DiaSemana,
+                HoraEntrada = h.HoraEntrada.ToTimeSpan(),
+                HoraSalida = h.HoraSalida.ToTimeSpan()
+            })
+            .ToList();
+
         var response = await Http.PostAsJsonAsync(
             "api/Funcionarios/Agregar_funcionarios",
             nuevoFuncionario);
+
         Console.WriteLine($"Status: {response.StatusCode}");
 
         var contenido = await response.Content.ReadAsStringAsync();
         Console.WriteLine(contenido);
+
         if (response.IsSuccessStatusCode)
         {
             funcionarios = await Http.GetFromJsonAsync<List<Funcionario>>(
@@ -91,4 +158,6 @@ else
         funcionarios = await Http.GetFromJsonAsync<List<Funcionario>>(
             "api/Funcionarios/Obtener_Funcionarios");
     }
+
+
 }

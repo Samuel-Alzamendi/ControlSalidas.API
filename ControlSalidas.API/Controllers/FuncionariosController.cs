@@ -173,8 +173,8 @@ public class FuncionariosController : ControllerBase
         else if (request.HospitalesIds == null)
         {
             return BadRequest("Ningun hopital valido seleccionado");
-        }else if(request.HorariosHastaQueHora.Length < ((request.FechaLlegada.Day - request.FechaSalida.Day) + 1)
-            || request.HorariosHastaQueHora.Length > ((request.FechaLlegada.Day - request.FechaSalida.Day) + 1)) 
+        }else if(request.HorariosHastaQueHora.Length < ((request.FechaLlegada.DayNumber - request.FechaSalida.DayNumber) + 1)
+            || request.HorariosHastaQueHora.Length > ((request.FechaLlegada.DayNumber - request.FechaSalida.DayNumber) + 1)) 
         {
             return BadRequest("Horario invalido o cantidad de horarios invalidos");
         }else if(request.HorariosHastaQueHora.Length != request.HorariosDesdeQueHora.Length)

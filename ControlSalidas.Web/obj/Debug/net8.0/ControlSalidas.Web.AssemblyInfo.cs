@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ControlSalidas.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d574ab05fedf3b4b0ff5de2dd91ba14a2550633")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2de8c1066321aa60621fbc49d83d635064abb69e")]
 [assembly: System.Reflection.AssemblyProductAttribute("ControlSalidas.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ControlSalidas.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
