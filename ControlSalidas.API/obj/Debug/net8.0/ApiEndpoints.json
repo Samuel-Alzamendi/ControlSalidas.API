@@ -43,6 +43,16 @@
   },
   {
     "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
+    "Method": "ObtenerHorasSalidaFuncionarios",
+    "RelativePath": "api/Funcionarios/Obtener_horas_salida_funcionarios",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
     "Method": "ObtenerHospitales",
     "RelativePath": "api/Funcionarios/Obtener_hospitales",
     "HttpMethod": "GET",

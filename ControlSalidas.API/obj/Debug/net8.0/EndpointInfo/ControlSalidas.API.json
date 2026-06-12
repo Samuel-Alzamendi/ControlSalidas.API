@@ -29,6 +29,18 @@
         }
       }
     },
+    "/api/Funcionarios/Obtener_horas_salida_funcionarios": {
+      "get": {
+        "tags": [
+          "Funcionarios"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Funcionarios/Obtener_salidas_Funcionarios": {
       "get": {
         "tags": [

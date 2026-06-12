@@ -76,6 +76,18 @@ public class FuncionariosController : ControllerBase
 
         return Ok(salidas);
     }
+    
+    [HttpGet("Obtener_horas_salida_funcionarios")]
+    public IActionResult ObtenerHorasSalidaFuncionarios()
+    {
+        var horas = _context.HorasSalidaFuncionarios
+            .Include(h => h.Funcionario)
+            .Include(h => h.Salida)
+            .OrderByDescending(h => h.SalidaId)
+            .ToList();
+
+        return Ok(horas);
+    }
 
     [HttpGet("Obtener_salidas_Funcionarios")]
     public IActionResult ObtenerSalidaFuncionario()
@@ -149,7 +161,7 @@ public class FuncionariosController : ControllerBase
     }
 
     [HttpPost("Registrar_salida")]
-    public IActionResult RegistrarSalida(RegistrarSalidaRequest request)
+    public IActionResult RegistrarSalida([FromBody] RegistrarSalidaRequest request)
     {
         if (request.FuncionariosIds == null)
         {
@@ -172,8 +184,9 @@ public class FuncionariosController : ControllerBase
         else
         {
             var funcionarios = _context.Funcionarios
-                    .Where(f => request.FuncionariosIds.Contains(f.Id))
-                    .ToList();
+                .Include(f => f.Horarios)
+                .Where(f => request.FuncionariosIds.Contains(f.Id))
+                .ToList();
 
             
 
@@ -185,7 +198,8 @@ public class FuncionariosController : ControllerBase
                 return NotFound("Funcionarios no encontrado");
             }
 
-            int dias = (request.FechaLlegada.Day - request.FechaSalida.Day) + 1;
+            //int dias = (request.FechaLlegada.Day - request.FechaSalida.Day) + 1;
+            int dias = request.FechaLlegada.DayNumber - request.FechaSalida.DayNumber + 1;
             int noches = 0;
             if (dias >= 2)
             {
