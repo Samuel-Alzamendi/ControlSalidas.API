@@ -44,6 +44,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/samue/source/repos/ControlSalidas.API/ControlSalidas.Web/Components/Pages/ModificarComponentes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xNb2RpZmljYXJDb21wb25lbnRlcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/samue/source/repos/ControlSalidas.API/ControlSalidas.Web/Components/Pages/RegistrarSalida.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSZWdpc3RyYXJTYWxpZGEucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 

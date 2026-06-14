@@ -18,5 +18,8 @@ namespace ControlSalidas.Shared.Models
         public int CantidadSalidas { get; set; }
         public int DiasFuera { get; set; }
         public int Noches { get; set; }
+        public decimal ImportePernoctes { get; set; }
+        public decimal Viaticos { get; set; }
+        public decimal ImporteTotal { get; set; }
     }
 }

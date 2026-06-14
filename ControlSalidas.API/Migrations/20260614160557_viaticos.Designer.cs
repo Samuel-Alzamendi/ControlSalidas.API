@@ -3,6 +3,7 @@ using System;
 using ControlSalidas.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlSalidas.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260614160557_viaticos")]
+    partial class viaticos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
@@ -151,20 +154,11 @@ namespace ControlSalidas.API.Migrations
                     b.Property<double>("HorasNormales")
                         .HasColumnType("REAL");
 
-                    b.Property<decimal>("ImportePernoctes")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("ImporteTotal")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Mes")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Noches")
                         .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("Viaticos")
-                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -227,9 +221,6 @@ namespace ControlSalidas.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("SalidaId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Viaticos")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

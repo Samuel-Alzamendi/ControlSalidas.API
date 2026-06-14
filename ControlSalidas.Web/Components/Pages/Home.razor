@@ -17,23 +17,39 @@ else
         <thead>
             <tr>
                 <th>ID</th>
+                <th>CI</th>
                 <th>Nombre</th>
                 <th>Noches</th>
                 <th>Días fuera</th>
                 <th>Cantidad de salidas</th>
+                <th>Pernotes este mes</th>
+                <th>Viaticos este mes</th>
+                <th>Importe total en el mes</th>
             </tr>
         </thead>
 
         <tbody>
             @foreach (var f in funcionarios)
             {
-                <tr>
-                    <td>@f.Id</td>
-                    <td>@f.Nombre</td>
-                    <td>@f.Noches</td>
-                    <td>@f.DiasFuera</td>
-                    <th>@f.CantidadSalidas</th>
-                </tr>
+                
+                    var resumen = resumenesMensuales?
+                    .FirstOrDefault(r =>
+                    r.FuncionarioId == f.Id &&
+                    r.Anio == DateTime.Now.Year &&
+                    r.Mes == DateTime.Now.Month);
+
+                    <tr>
+                        <td>@f.Id</td>
+                        <td>@f.Ci</td>
+                        <td>@f.Nombre</td>
+                        <td>@f.Noches</td>
+                        <td>@f.DiasFuera</td>
+                        <td>@f.CantidadSalidas</td>
+                        <td>$ @(resumen?.ImportePernoctes ?? 0)</td>
+                        <td>$ @(resumen?.Viaticos ?? 0)</td>
+                        <td>$ @(resumen?.ImporteTotal ?? 0)</td>
+                    </tr>
+                
             }
         </tbody>
     </table>
@@ -87,6 +103,7 @@ else
     List<Funcionario>? funcionarios;
     List<Salida>? salidas;
     List<SalidaFuncionario>? salidaFuncionarios;
+    List<ResumenMensualFuncionario>? resumenesMensuales;
 
     protected override async Task OnInitializedAsync()
     {
@@ -96,7 +113,7 @@ else
         salidas = await Http.GetFromJsonAsync<List<Salida>>(
             "api/Funcionarios/Obtener_salidas");
 
-        salidaFuncionarios = await Http.GetFromJsonAsync<List<SalidaFuncionario>>(
-            "api/Funcionarios/Obtener_salidas");
+        resumenesMensuales = await Http.GetFromJsonAsync<List<ResumenMensualFuncionario>>(
+            "api/Funcionarios/Obtener_resumen_mensual");
     }
 }

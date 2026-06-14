@@ -20,40 +20,96 @@
 </div>
 
 <h5>Funcionarios</h5>
-@if (funcionarios.Count == 0)
+@if (!funcionariosConfirmados)
 {
-    <p>Cargando funcionarios...</p>
+    @if (funcionarios.Count == 0)
+    {
+        <p>No hay funcionarios</p>
+    }
+    else
+    {
+        @foreach (var funcionario in funcionarios)
+        {
+            <div>
+                <input type="checkbox"
+                       @bind="funcionariosSeleccionados[funcionario.Id]" />
+                @funcionario.Nombre
+            </div>
+        }
+    }
 }
 else
 {
-    @foreach (var funcionario in funcionarios)
+    <div class="alert alert-success">
+        Funcionarios confirmados
+    </div>
+}
+
+
+<button class="btn btn-secondary"
+        @onclick="ConfirmarFuncionarios">
+    Confirmar funcionarios
+</button>
+
+<h5>Hospitales</h5>
+
+@if (!hospitalesConfirmados)
+{
+    @foreach (var hospital in hospitales)
     {
         <div>
             <input type="checkbox"
-                   @bind="funcionariosSeleccionados[funcionario.Id]" />
-            @funcionario.Nombre
+                   @bind="hospitalesSeleccionados[hospital.Id]" />
+
+            @hospital.Nombre
+        </div>
+    }
+
+    <button class="btn btn-secondary"
+            @onclick="ConfirmarHospitales">
+        Confirmar hospitales
+    </button>
+}
+else
+{
+    <div class="alert alert-success">
+        Hospitales confirmados
+    </div>
+}
+
+@if (funcionariosConfirmados && hospitalesConfirmados && !horariosGenerados)
+{
+    <button class="btn btn-warning"
+            @onclick="GenerarHorarios">
+        Generar horarios
+    </button>
+}
+
+@if (horariosGenerados)
+{
+    @for (int i = 0; i < horariosDias.Count; i++)
+    {
+        <div class="border p-2 mb-2">
+
+            <strong>
+                Día @(i + 1)
+            </strong>
+
+            <br />
+
+            <label>Desde</label>
+            <input type="time"
+                   @bind="horariosDias[i].Desde" />
+
+            <label>Hasta</label>
+            <input type="time"
+                   @bind="horariosDias[i].Hasta" />
+
         </div>
     }
 }
 
-<h5>Hospitales</h5>
-
-@foreach (var hospital in hospitales)
-{
-    <div>
-        <input type="checkbox"
-               @bind="hospitalesSeleccionados[hospital.Id]" />
-
-        @hospital.Nombre
-    </div>
-}
-
-<button class="btn btn-secondary"
-        @onclick="GenerarHorarios">
-    Generar horarios
-</button>
-
-@for (int i = 0; i < horariosDias.Count; i++)
+@* @for (int i = 0; i < horariosDias.Count; i++)
 {
     <div class="border p-2 mb-2">
 
@@ -73,12 +129,20 @@ else
                @bind="horariosDias[i].Hasta" />
 
     </div>
+} *@
+
+@if (horariosGenerados)
+{
+    <button class="btn btn-primary"
+            @onclick="RegistrarSalidaEvent">
+        Registrar salida
+    </button>
 }
 
-<button class="btn btn-primary"
+@* <button class="btn btn-primary"
         @onclick="RegistrarSalidaEvent">
     Registrar salida
-</button>
+</button> *@
 
 
 
@@ -98,7 +162,7 @@ else
     {
         public TimeOnly Desde { get; set; } = new(7, 0);
         public TimeOnly Hasta { get; set; } = new(13, 0);
-    } 
+    }
 
     private RegistrarSalidaRequest nuevaSalida = new()
     {
@@ -114,18 +178,51 @@ else
     private Dictionary<int, bool> hospitalesSeleccionados = new();
     private List<HorarioDiaViewModel> horariosDias = new();
 
+    private bool funcionariosConfirmados = false;
+    private bool horariosGenerados = false;
+    private bool hospitalesConfirmados = false;
+    private string mensajeError = "";
+    private void ConfirmarFuncionarios()
+    {
+        if (!funcionariosSeleccionados.Any(x => x.Value))
+        {
+            mensajeError = "Debe seleccionar al menos un funcionario.";
+            return;
+        }
+
+        mensajeError = "";
+        funcionariosConfirmados = true;
+    }
+
+    private void ConfirmarHospitales()
+    {
+        if (!hospitalesSeleccionados.Any(x => x.Value))
+        {
+            mensajeError = "Debe seleccionar al menos un hospital.";
+            return;
+        }
+
+        mensajeError = "";
+        hospitalesConfirmados = true;
+    }
+
     private void GenerarHorarios()
     {
-        horariosDias.Clear();
 
-        int dias =
-            nuevaSalida.FechaLlegada.DayNumber -
-            nuevaSalida.FechaSalida.DayNumber + 1;
+            horariosDias.Clear();
 
-        for (int i = 0; i < dias; i++)
-        {
-            horariosDias.Add(new HorarioDiaViewModel());
-        }
+            horariosGenerados = true;
+
+            int dias =
+                nuevaSalida.FechaLlegada.DayNumber -
+                nuevaSalida.FechaSalida.DayNumber + 1;
+
+            for (int i = 0; i < dias; i++)
+            {
+                horariosDias.Add(new HorarioDiaViewModel());
+            }
+        
+
     }
 
     private async Task RegistrarSalidaEvent()
@@ -178,7 +275,7 @@ else
 
         hospitales = await Http.GetFromJsonAsync<List<Hospital>>(
             "api/Funcionarios/Obtener_Hospitales");
-                        
+
         funcionarios = await Http.GetFromJsonAsync<List<Funcionario>>(
             "api/Funcionarios/Obtener_Funcionarios");
 

@@ -13,6 +13,8 @@ namespace ControlSalidas.Shared.Models
         //public Salida Salida { get; set; } = new Salida();
         public int FuncionarioId { get; set; } = 0;
         //public Funcionario Funcionario { get; set; } = new Funcionario();
-
+        public int Pernoctes { get; set; }
+        public int Viaticos { get; set; }
+        public decimal ImportePernoctes { get; set; }
     }
 }

@@ -23,8 +23,34 @@ else
 
     <div class="mb-3">
         <label class="form-label">Departamento</label>
-        <InputText class="form-control"
-                   @bind-Value="nuevoHospital.Departamento" />
+
+        <InputSelect class="form-select"
+                     @bind-Value="nuevoHospital.Departamento">
+
+                @*VALIDAR *@            
+            <option value="">Seleccione un departamento</option>
+
+            <option>Artigas</option>
+            <option>Canelones</option>
+            <option>Cerro Largo</option>
+            <option>Colonia</option>
+            <option>Durazno</option>
+            <option>Flores</option>
+            <option>Florida</option>
+            <option>Lavalleja</option>
+            <option>Maldonado</option>
+            <option>Montevideo</option>
+            <option>Paysandú</option>
+            <option>Río Negro</option>
+            <option>Rivera</option>
+            <option>Rocha</option>
+            <option>Salto</option>
+            <option>San José</option>
+            <option>Soriano</option>
+            <option>Tacuarembó</option>
+            <option>Treinta y Tres</option>
+
+        </InputSelect>
     </div>
 
     <div class="mb-3">

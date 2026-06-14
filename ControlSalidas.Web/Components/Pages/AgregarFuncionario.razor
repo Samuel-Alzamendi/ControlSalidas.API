@@ -51,6 +51,13 @@
 
         </div>
     }
+
+<div class="mb-3">
+    <label class="form-label">Valor por pernocte</label>
+
+    <InputNumber class="form-control"
+                 @bind-Value="nuevoFuncionario.ValorPernocte" />
+</div>
     
     <button class="btn btn-primary"
             @onclick="AgregarFuncionarioWeb">
@@ -73,6 +80,7 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Cédula</th>
+                    <th>Pernocte</th>
                 </tr>
             </thead>
             <tbody>
@@ -82,6 +90,7 @@
                         <td>@f.Id</td>
                         <td>@f.Nombre</td>
                         <td>@f.Ci</td>
+                        <td>$ @f.ValorPernocte</td>
                     </tr>
                 }
             </tbody>

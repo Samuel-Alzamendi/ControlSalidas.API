@@ -15,6 +15,7 @@ namespace ControlSalidas.Shared.Models
         public int Noches { get; set; } = 0;
         public int CantidadSalidas { get; set; } = 0;
         public int DiasFuera { get; set; } = 0;
+        public decimal ValorPernocte { get; set; }
         public ICollection<HorarioLaboral> Horarios { get; set; } = new List<HorarioLaboral>();
 
         //public TimeOnly HorarioLaboralEntrada { get; set; } = new TimeOnly(7, 0, 0);

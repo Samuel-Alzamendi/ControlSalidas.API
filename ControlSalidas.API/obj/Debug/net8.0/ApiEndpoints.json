@@ -33,6 +33,22 @@
   },
   {
     "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
+    "Method": "AgregarViatico",
+    "RelativePath": "api/Funcionarios/Agregar_viatico",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ControlSalidas.Shared.Request.AgregarViaticoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
     "Method": "ObtenerFuncionarios",
     "RelativePath": "api/Funcionarios/Obtener_funcionarios",
     "HttpMethod": "GET",
@@ -55,6 +71,16 @@
     "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
     "Method": "ObtenerHospitales",
     "RelativePath": "api/Funcionarios/Obtener_hospitales",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlSalidas.API.Controllers.FuncionariosController",
+    "Method": "ObtenerResumenMensaul",
+    "RelativePath": "api/Funcionarios/Obtener_resumen_mensual",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

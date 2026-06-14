@@ -1,4 +1,5 @@
 ﻿using ControlSalidas.API.Data;
+using ControlSalidas.API.Migrations;
 using ControlSalidas.Shared.Models;
 using ControlSalidas.Shared.Request;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,17 @@ public class FuncionariosController : ControllerBase
         .ToList();
 
         return Ok(funcionarios);
+    }
+
+    [HttpGet("Obtener_resumen_mensual")]
+    public IActionResult ObtenerResumenMensaul()
+    {
+        var resumenMensaul = _context.ResumenesMensuales
+            .Include(f => f.Funcionario)
+            .OrderBy(f => f.Id)
+            .ToList();
+
+        return Ok(resumenMensaul);
     }
 
     [HttpGet("Obtener_salidas")]
@@ -76,7 +88,7 @@ public class FuncionariosController : ControllerBase
 
         return Ok(salidas);
     }
-    
+
     [HttpGet("Obtener_horas_salida_funcionarios")]
     public IActionResult ObtenerHorasSalidaFuncionarios()
     {
@@ -122,10 +134,19 @@ public class FuncionariosController : ControllerBase
         {
             return BadRequest("Error, CI invalida");
         }
+        else if (request.ValorPernocte == 0)
+        {
+            return BadRequest("No se agrego pernocte, intente nuevamente");
+        }
+        else if (request.ValorPernocte > 9999)
+        {
+            return BadRequest("Cantidad de pernocte no admitida");
+        }
         else
         {
             var funcionario = new Funcionario
             {
+                ValorPernocte = request.ValorPernocte,
                 Ci = request.Ci,
                 Nombre = request.Nombre,
                 Cargo = request.Cargo,
@@ -160,35 +181,62 @@ public class FuncionariosController : ControllerBase
 
     }
 
+    [HttpPost("Agregar_viatico")]
+    public IActionResult AgregarViatico(AgregarViaticoRequest request)
+    {
+        if (request.Precio <= 0)
+        {
+            return BadRequest("Error, usuario invalido");
+        }
+        else
+        {
+
+            var viatico = new Viatico
+            {
+                Precio = request.Precio
+            };
+
+            _context.Viaticos.RemoveRange(_context.Viaticos);
+            _context.SaveChanges();
+            _context.Viaticos.Add(viatico);
+            _context.SaveChanges();
+
+            return Ok(viatico);
+        }
+
+    }
+
     [HttpPost("Registrar_salida")]
     public IActionResult RegistrarSalida([FromBody] RegistrarSalidaRequest request)
     {
         if (request.FuncionariosIds == null)
         {
             return BadRequest("Ningun funcionario seleccionado");
-        } else if (request.FechaSalida.DayNumber > request.FechaLlegada.DayNumber)
+        }
+        else if (request.FechaSalida.DayNumber > request.FechaLlegada.DayNumber)
         {
             return BadRequest("La fecha de salida no puede ser anterior a la fecha de llegada");
         }
         else if (request.HospitalesIds == null)
         {
             return BadRequest("Ningun hopital valido seleccionado");
-        }else if(request.HorariosHastaQueHora.Length < ((request.FechaLlegada.DayNumber - request.FechaSalida.DayNumber) + 1)
-            || request.HorariosHastaQueHora.Length > ((request.FechaLlegada.DayNumber - request.FechaSalida.DayNumber) + 1)) 
+        }
+        else if (request.HorariosHastaQueHora.Length < ((request.FechaLlegada.DayNumber - request.FechaSalida.DayNumber) + 1)
+            || request.HorariosHastaQueHora.Length > ((request.FechaLlegada.DayNumber - request.FechaSalida.DayNumber) + 1))
         {
             return BadRequest("Horario invalido o cantidad de horarios invalidos");
-        }else if(request.HorariosHastaQueHora.Length != request.HorariosDesdeQueHora.Length)
+        }
+        else if (request.HorariosHastaQueHora.Length != request.HorariosDesdeQueHora.Length)
         {
             return BadRequest("Horario de diferentes cantidades");
         }
         else
         {
+            bool general = false;
             var funcionarios = _context.Funcionarios
                 .Include(f => f.Horarios)
                 .Where(f => request.FuncionariosIds.Contains(f.Id))
                 .ToList();
-
-            
 
             //var funcionario = _context.Funcionarios
             //    .FirstOrDefault(f => f.id == request.funcionarioId);
@@ -230,6 +278,20 @@ public class FuncionariosController : ControllerBase
                 .Where(f => request.HospitalesIds.Contains(f.Id))
                 .ToList();
 
+            var viaticoComun = _context.Viaticos
+                .OrderByDescending(v => v.Id)
+                .FirstOrDefault();
+
+
+            int viaticos = 0;
+            foreach (var depas in hospitales)
+            {
+                if (!depas.Departamento.Equals("Montevideo") || !depas.Departamento.Equals("Canelones"))
+                {
+                    viaticos = (int)viaticoComun.Precio * dias;
+                }
+            }
+
             var salida = new Salida
             {
                 FechaSalida = request.FechaSalida,
@@ -238,14 +300,11 @@ public class FuncionariosController : ControllerBase
                 Noches = noches,
                 SalidasCalculadas = salidasCalculadas,
                 HospitalesIds = request.HospitalesIds,
-                IdFuncionarios = request.FuncionariosIds
+                IdFuncionarios = request.FuncionariosIds,
+
             };
             _context.Salidas.Add(salida);
             _context.SaveChanges();
-
-
-
-
 
             //-------------------------------------------------------------------------------------------------------
             // calcular horas y horas extra de los funcionarios, ns como hacerlo
@@ -268,7 +327,8 @@ public class FuncionariosController : ControllerBase
             //        cantHorasComunesF[i] = ((f.HorarioLaboralSalida.Hour - f.HorarioLaboralEntrada.Hour) +1);
             //    }
             //}
-
+            double horasNormales = 0;
+            double horasExtra = 0;
             foreach (var funcionario in funcionarios)
             {
                 funcionario.CantidadSalidas += salidasCalculadas;
@@ -276,9 +336,6 @@ public class FuncionariosController : ControllerBase
                 funcionario.Noches += noches;
 
                 // calcular horas normales y extra
-                double horasNormales = 0;
-                double horasExtra = 0;
-
                 for (int i = 0; i < request.HorariosHastaQueHora.Length; i++)
                 {
                     var fechaActual = request.FechaSalida.AddDays(i);
@@ -337,11 +394,54 @@ public class FuncionariosController : ControllerBase
 
                 }
 
+                int pernoctes = request.FechaLlegada.DayNumber - request.FechaSalida.DayNumber;
+
+                decimal importePernoctes = funcionario.ValorPernocte * pernoctes;
+
+
                 Console.WriteLine(horasNormales);
                 Console.WriteLine(horasExtra);
 
+                // resumen mensual
+                var resumen = _context.ResumenesMensuales
+                    .FirstOrDefault(r =>
+                    r.FuncionarioId == funcionario.Id &&
+                    r.Anio == DateTime.Now.Year &&
+                    r.Mes == DateTime.Now.Month);
+
+                if (resumen == null)
+                {
+                    resumen = new ResumenMensualFuncionario
+                    {
+                        FuncionarioId = funcionario.Id,
+                        Anio = DateTime.Now.Year,
+                        Mes = DateTime.Now.Month,
+                        HorasNormales = 0,
+                        HorasExtra = 0,
+                        CantidadSalidas = 0,
+                        DiasFuera = 0,
+                        Noches = 0,
+                        ImportePernoctes = 0
+                    };
+
+                    _context.ResumenesMensuales.Add(resumen);
+                }
+
+                resumen.HorasNormales += horasNormales;
+                resumen.HorasExtra += horasExtra;
+                resumen.CantidadSalidas += 1;
+                resumen.DiasFuera += salida.Dias;
+                resumen.Noches += pernoctes;
+                resumen.ImportePernoctes += importePernoctes;
+                resumen.Viaticos += viaticos;
+                resumen.ImporteTotal += importePernoctes + viaticos;
+
+                _context.SaveChanges();
+
                 var salidaFuncionario = new SalidaFuncionario
                 {
+                    Viaticos = viaticos,
+                    Pernoctes = pernoctes,
                     SalidaId = salida.Id,
                     FuncionarioId = funcionario.Id
                 };
@@ -359,20 +459,28 @@ public class FuncionariosController : ControllerBase
 
                 _context.SalidaFuncionarios.Add(salidaFuncionario);
                 _context.SaveChanges();
+
+                general = true;
             }
 
-
-
-            return Ok(new
+            if (general)
             {
-                mensaje = "Salida registrada correctamente",
-                dias,
-                noches,
-                salidasCalculadas,
-                fechaSalida = salida.FechaSalida,
-                fechaLlegada = salida.FechaLlegada,
-                hospital = salida.HospitalesIds
-            });
+                return Ok(new
+                {
+                    mensaje = "Salida registrada correctamente",
+                    dias,
+                    noches,
+                    salidasCalculadas,
+                    fechaSalida = salida.FechaSalida,
+                    fechaLlegada = salida.FechaLlegada,
+                    hospital = salida.HospitalesIds
+                });
+            }
+            else
+            {
+                return BadRequest("Error al registrar salida");
+            }
+
 
         }// else
     }//metodo

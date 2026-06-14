@@ -17,6 +17,18 @@
         }
       }
     },
+    "/api/Funcionarios/Obtener_resumen_mensual": {
+      "get": {
+        "tags": [
+          "Funcionarios"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Funcionarios/Obtener_salidas": {
       "get": {
         "tags": [
@@ -96,6 +108,37 @@
         }
       }
     },
+    "/api/Funcionarios/Agregar_viatico": {
+      "post": {
+        "tags": [
+          "Funcionarios"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgregarViaticoRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgregarViaticoRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgregarViaticoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Funcionarios/Registrar_salida": {
       "post": {
         "tags": [
@@ -161,6 +204,16 @@
   },
   "components": {
     "schemas": {
+      "AgregarViaticoRequest": {
+        "type": "object",
+        "properties": {
+          "precio": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "DayOfWeek": {
         "enum": [
           0,
@@ -216,6 +269,10 @@
               "$ref": "#/components/schemas/HorarioLaboral"
             },
             "nullable": true
+          },
+          "valorPernocte": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
